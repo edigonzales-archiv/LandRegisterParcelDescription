@@ -1,14 +1,9 @@
 # LandRegisterParcelDescription
 
 ```
-xjc Extract.xsd
+xjc -b binding.xjb -extension Extract.xsd
 ```
-
-Die Rootelementklasse annotieren:
-```
-@XmlRootElement(name="GetExtractByXYResponse")
-```
-(Fehlermeldung: ...)
+Das `binding.xjb` ist nur vorhanden damit die Rootelementklasse korrekt mit `@XmlRootElement(name="xxxx")` annotiert wird. Fehlt diese Annotation meldet Spring Boot immer etwas wegen "media format" (oder so). TODO: korrekte Fehlermeldung!
 
 ```
 http://localhost:8888/oereb/getegrid/xml/?XY=2598097,1225805 (Liegenschaft und Baurecht)

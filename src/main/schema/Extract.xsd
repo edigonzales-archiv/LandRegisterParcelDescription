@@ -78,7 +78,7 @@
     	</xsd:sequence>
     </xsd:complexType>
     
-    <xsd:element name="GetExtractByXY"
+    <xsd:element name="GetExtractByXYResponse"
     	type="parcel:GetExtractByXYResponseType">
     </xsd:element>
 

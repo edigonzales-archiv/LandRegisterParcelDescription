@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.Extract;
-import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.GetExtractByXYResponseType;
+import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.GetExtractByXYResponse;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.ObjectFactory;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.Office;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.RealEstateDPR;
@@ -32,22 +32,16 @@ public class MainController {
             @RequestParam(value = "XY") String xy) {
                      
         log.info("fubar");
-//        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
- 
-//        ch.admin.geo.schemas.v_d.oereb._1_0.extract.ObjectFactory objectFactory = new ch.admin.geo.schemas.v_d.oereb._1_0.extract.ObjectFactory();
-//        GetEGRIDResponseType getEGRIDResponseType = objectFactory.createGetEGRIDResponseType();
-//        return ResponseEntity.ok(getEGRIDResponseType);
 
         ObjectFactory objectFactory = new ObjectFactory();
-        GetExtractByXYResponseType getExtractByXYResponseType = objectFactory.createGetExtractByXYResponseType();
-
+        GetExtractByXYResponse getExtractByXYResponseType = objectFactory.createGetExtractByXYResponse();
         Office office = objectFactory.createOffice();
         office.setName("Amt für Geoinformation");
         office.setStreet("Rötistrasse");
         office.setNumber("4");
         office.setPostalCode("4501");
         office.setCity("Solothurn");
-        office.setOfficeAtWeb("agi@bd.so.ch");
+        office.setOfficeAtWeb("http://agi.so.ch");
         
         RealEstateDPR parcel = objectFactory.createRealEstateDPR();
         parcel.setNumber("7517");
