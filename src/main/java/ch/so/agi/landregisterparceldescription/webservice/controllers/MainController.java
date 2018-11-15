@@ -25,7 +25,7 @@ import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.RealEstat
 public class MainController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(value="/extract/", method=RequestMethod.GET,
+    @RequestMapping(value="/extract/xml/", method=RequestMethod.GET,
             produces={MediaType.APPLICATION_XML_VALUE},
             params={"XY"})
     public ResponseEntity<?> getExtractByXY (
