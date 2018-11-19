@@ -42,6 +42,7 @@ public class MainController {
         office.setPostalCode("4501");
         office.setCity("Solothurn");
         office.setOfficeAtWeb("http://agi.so.ch");
+        office.setEmail("agi@bd.so.ch");
         
         RealEstateDPR parcel = objectFactory.createRealEstateDPR();
         parcel.setNumber("7517");
@@ -49,7 +50,7 @@ public class MainController {
         parcel.setEGRID("CH667432068228");
  
         Extract extract = objectFactory.createExtract();
-        extract.setOffice(office);
+        extract.setResponsibleOffice(office);
         extract.setRealEstate(parcel);
         
         // Ist so natürlich doof: String wird eigentlich 1:1 ins XML geschrieben.
