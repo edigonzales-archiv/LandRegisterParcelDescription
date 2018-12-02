@@ -63,6 +63,7 @@ public class GetExtractByIdResponseTypeServiceImpl implements GetExtractByIdResp
         responsibleOffice.setCity("Solothurn");
         responsibleOffice.setOfficeAtWeb("http://agi.so.ch");
         responsibleOffice.setEmail("agi@bd.so.ch");
+        responsibleOffice.setPhone("032 627 75 92");
         extract.setResponsibleOffice(responsibleOffice);
                 
         RealEstateDPR realEstateDPR = objectFactory.createRealEstateDPR();
@@ -89,6 +90,7 @@ public class GetExtractByIdResponseTypeServiceImpl implements GetExtractByIdResp
         landRegistryOffice.setCity(parcel.getOrtschaft());
         landRegistryOffice.setEmail(parcel.getEmail());
         landRegistryOffice.setOfficeAtWeb(parcel.getWeb());
+        landRegistryOffice.setPhone(parcel.getTelefon());
         realEstateDPR.setLandRegisterOffice(landRegistryOffice);
 
         Office surveyorOffice = objectFactory.createOffice();
@@ -101,9 +103,9 @@ public class GetExtractByIdResponseTypeServiceImpl implements GetExtractByIdResp
         surveyorOffice.setCity(parcel.getNf_ortschaft());
         surveyorOffice.setEmail(parcel.getNf_email());
         surveyorOffice.setOfficeAtWeb(parcel.getNf_web());
+        surveyorOffice.setPhone(parcel.getNf_telefon());
         realEstateDPR.setSurveyorOffice((surveyorOffice));
 
-        
         extract.setRealEstate(realEstateDPR);
         
         getExtractByIdResponse.setExtract(extract);

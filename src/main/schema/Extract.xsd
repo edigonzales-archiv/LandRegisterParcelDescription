@@ -30,14 +30,14 @@
     		<xsd:element name="OfficeAtWeb" type="xsd:anyURI"
     			minOccurs="0">
     		</xsd:element>
-            <xsd:element name="Email" minOccurs="0" maxOccurs="1">
+    		<xsd:element name="Email" minOccurs="0" maxOccurs="1">
     			<xsd:simpleType>
     				<xsd:restriction base="xsd:normalizedString">
     					<xsd:maxLength value="80"></xsd:maxLength>
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
-            <xsd:element name="UID" type="xsd:normalizedString"
+    		<xsd:element name="UID" type="xsd:normalizedString"
     			minOccurs="0">
     		</xsd:element>
     		<xsd:element name="Line1" minOccurs="0">
@@ -82,6 +82,7 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
+    		<xsd:element name="Phone" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
     	</xsd:sequence>
     </xsd:complexType>
 
