@@ -4,19 +4,25 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.unbroken-dome.gradle-plugins:gradle-xjc-plugin:1.4.0")
     }
+}
+plugins {
+    id 'pl.allegro.tech.build.axion-release' version '1.9.3'
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.unbroken-dome.xjc'
 
 group = 'ch.so.agi.landregisterparceldescription'
-version = '0.0.1-SNAPSHOT'
+project.version = scmVersion.version
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -29,6 +35,8 @@ repositories {
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('net.sf.saxon:Saxon-HE:9.9.0-2')
+    implementation('org.apache.xmlgraphics:fop:2.3')
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
     runtimeOnly('org.springframework.boot:spring-boot-starter-actuator')
     runtimeOnly('org.postgresql:postgresql')
@@ -60,4 +68,11 @@ sourceSets {
 
 bootRun {
     classpath = sourceSets.main.runtimeClasspath + sourceSets.generated.output
+}
+
+xjcGenerate {
+    source = fileTree('src/main/schema') { include '*.xsd' }
+    bindingFiles = fileTree('src/main/schema') { include '*.xjb' }
+    outputDirectory = file('src/generated/java')
+    extension = true
 }

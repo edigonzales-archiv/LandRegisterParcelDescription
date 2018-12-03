@@ -32,7 +32,7 @@ public class ParcelDAOImpl implements ParcelDAO {
                 "    LEFT JOIN agi_mopublic_pub.mopublic_flurname AS flurname\n" + 
                 "    ON (ST_Intersects(grundstueck.geometrie, flurname.geometrie) AND NOT ST_Touches(grundstueck.geometrie, flurname.geometrie))\n" + 
                 "  WHERE\n" + 
-                "    grundstueck.egrid = 'CH310663327779'\n" + 
+                "    grundstueck.egrid = :egrid\n" + 
                 ")\n" + 
                 "SELECT\n" + 
                 "  grundstueck.t_id,\n" + 
@@ -76,7 +76,7 @@ public class ParcelDAOImpl implements ParcelDAO {
                 "  LEFT JOIN nomenklatur\n" + 
                 "  ON 1=1\n" + 
                 "WHERE\n" + 
-                "  grundstueck.egrid = 'CH310663327779'\n" + 
+                "  grundstueck.egrid = :egrid\n" + 
                 "LIMIT 1\n" + 
                 ";";
         

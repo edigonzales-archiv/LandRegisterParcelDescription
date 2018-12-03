@@ -67,6 +67,8 @@ public class LandCoverShareDAOImpl implements LandCoverShareDAO {
                 "  WHERE\n" + 
                 "    ST_IsEmpty(geom) = FALSE\n" + 
                 ") AS foo\n" + 
+                "WHERE\n" + 
+                "  ST_Area(geom) > 0.5\n" + 
                 "GROUP BY\n" + 
                 "  art, \n" + 
                 "  art_txt \n" + 

@@ -72,12 +72,15 @@ public class GetExtractByIdResponseTypeServiceImpl implements GetExtractByIdResp
         realEstateDPR.setEGRID(parcel.getEgrid());
         realEstateDPR.setType(parcel.getArt_txt());
         realEstateDPR.setLocalNames(parcel.getFlurnamen());
+        realEstateDPR.setMunicipality(parcel.getGemeindename());
+        realEstateDPR.setSubunitOfLandRegister(parcel.getGrundbuchname());
+        realEstateDPR.setLandRegistryArea(parcel.getFlaechenmass());
         
         List<LandCoverShare> landCoverShareList =  landCoverShareDAO.getLandCoverShareByEgrid(egrid);
         for (LandCoverShare landCoverShare : landCoverShareList) {
             LandCoverShareType landCoverShareType = objectFactory.createLandCoverShareType();
             landCoverShareType.setType(landCoverShare.getArt_txt());
-            landCoverShareType.setArea(Double.valueOf(landCoverShare.getFlaeche()).intValue());
+            landCoverShareType.setArea((int)Math.round(landCoverShare.getFlaeche()));
             realEstateDPR.getLandCoverShares().add(landCoverShareType);
         }
         

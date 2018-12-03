@@ -123,7 +123,8 @@
     			minOccurs="0">
     		</xsd:element>
     		<xsd:element name="LandCoverShare"
-    			type="extract:LandCoverShareType" minOccurs="0" maxOccurs="unbounded">
+    			type="extract:LandCoverShareType" minOccurs="0"
+    			maxOccurs="unbounded">
     		</xsd:element>
     		<xsd:element name="SurveyorOffice" type="extract:Office"
     			minOccurs="1" maxOccurs="1">
@@ -131,7 +132,24 @@
     		<xsd:element name="LandRegisterOffice" type="extract:Office"
     			minOccurs="1" maxOccurs="1">
     		</xsd:element>
-    		<xsd:element name="Type" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+    		<xsd:element name="Type" type="xsd:string" minOccurs="1"
+    			maxOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="Municipality" minOccurs="0"
+    			type="xsd:normalizedString">
+    		</xsd:element>
+    		<xsd:element name="SubunitOfLandRegister" minOccurs="0"
+    			type="xsd:normalizedString">
+    		</xsd:element>
+    		<xsd:element name="LandRegistryArea" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:int">
+    					<xsd:minExclusive value="0"></xsd:minExclusive>
+    					<xsd:maxExclusive value="999999999"></xsd:maxExclusive>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
     	</xsd:sequence>
     </xsd:complexType>
 
