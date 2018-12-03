@@ -10,5 +10,6 @@ http://localhost:8887/parcel/extract/xml/?XY=2598097,1225805 (Liegenschaft und B
 http://localhost:8887/parcel/extract/xml/CH667432068228 (Liegenschaft)
 http://localhost:8887/parcel/extract/xml/CH527335320693 (Baurecht)
 CH310663327779 (viele Flurnamen)
+CH493273420604 (grösstes Grundstück)
 ```
 
