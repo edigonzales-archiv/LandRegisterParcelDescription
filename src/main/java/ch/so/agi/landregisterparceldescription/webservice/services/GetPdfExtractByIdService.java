@@ -14,5 +14,5 @@ import org.xml.sax.SAXException;
 import net.sf.saxon.s9api.SaxonApiException;
 
 public interface GetPdfExtractByIdService {
-    File getExtract(String egrid) throws IOException, DatatypeConfigurationException, JAXBException, SaxonApiException, SAXException, TransformerConfigurationException, TransformerException, URISyntaxException;
+    File getExtract(String egrid) throws IOException, DatatypeConfigurationException, JAXBException, SaxonApiException, SAXException, TransformerConfigurationException, TransformerException, ImageServiceException;
 }

@@ -58,6 +58,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *             &lt;/restriction&gt;
  *           &lt;/simpleType&gt;
  *         &lt;/element&gt;
+ *         &lt;element name="Map" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -78,7 +79,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "type",
     "municipality",
     "subunitOfLandRegister",
-    "landRegistryArea"
+    "landRegistryArea",
+    "map"
 })
 public class RealEstateDPR {
 
@@ -111,6 +113,8 @@ public class RealEstateDPR {
     protected String subunitOfLandRegister;
     @XmlElement(name = "LandRegistryArea")
     protected int landRegistryArea;
+    @XmlElement(name = "Map")
+    protected byte[] map;
 
     /**
      * Gets the value of the number property.
@@ -371,6 +375,28 @@ public class RealEstateDPR {
      */
     public void setLandRegistryArea(int value) {
         this.landRegistryArea = value;
+    }
+
+    /**
+     * Gets the value of the map property.
+     * 
+     * @return
+     *     possible object is
+     *     byte[]
+     */
+    public byte[] getMap() {
+        return map;
+    }
+
+    /**
+     * Sets the value of the map property.
+     * 
+     * @param value
+     *     allowed object is
+     *     byte[]
+     */
+    public void setMap(byte[] value) {
+        this.map = value;
     }
 
 }

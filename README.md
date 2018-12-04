@@ -13,3 +13,6 @@ CH310663327779 (viele Flurnamen)
 CH493273420604 (grösstes Grundstück)
 ```
 
+
+## Karte in Auszug
+

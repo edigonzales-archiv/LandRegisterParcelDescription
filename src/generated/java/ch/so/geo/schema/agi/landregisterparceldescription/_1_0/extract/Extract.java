@@ -23,7 +23,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="ResponsibleOffice" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}Office"/&gt;
  *         &lt;element name="RealEstate" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}RealEstate_DPR"/&gt;
  *         &lt;element name="CreationDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
- *         &lt;element name="Map" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -37,8 +36,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "cantonalLogo",
     "responsibleOffice",
     "realEstate",
-    "creationDate",
-    "map"
+    "creationDate"
 })
 public class Extract {
 
@@ -51,8 +49,6 @@ public class Extract {
     @XmlElement(name = "CreationDate", required = true)
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar creationDate;
-    @XmlElement(name = "Map")
-    protected byte[] map;
 
     /**
      * Gets the value of the cantonalLogo property.
@@ -146,28 +142,6 @@ public class Extract {
      */
     public void setCreationDate(XMLGregorianCalendar value) {
         this.creationDate = value;
-    }
-
-    /**
-     * Gets the value of the map property.
-     * 
-     * @return
-     *     possible object is
-     *     byte[]
-     */
-    public byte[] getMap() {
-        return map;
-    }
-
-    /**
-     * Sets the value of the map property.
-     * 
-     * @param value
-     *     allowed object is
-     *     byte[]
-     */
-    public void setMap(byte[] value) {
-        this.map = value;
     }
 
 }

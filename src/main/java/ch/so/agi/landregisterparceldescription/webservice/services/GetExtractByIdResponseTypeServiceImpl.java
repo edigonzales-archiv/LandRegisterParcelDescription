@@ -46,7 +46,7 @@ public class GetExtractByIdResponseTypeServiceImpl implements GetExtractByIdResp
     private String wmsLayerName;
     
     @Override
-    public GetExtractByIdResponse getExtractById(String egrid) throws DatatypeConfigurationException, IOException, URISyntaxException {
+    public GetExtractByIdResponse getExtractById(String egrid) throws DatatypeConfigurationException, ImageServiceException {
         ObjectFactory objectFactory = new ObjectFactory();
 
         Parcel parcel = parcelDAO.getParcelByEgrid(egrid);
@@ -119,18 +119,13 @@ public class GetExtractByIdResponseTypeServiceImpl implements GetExtractByIdResp
         surveyorOffice.setOfficeAtWeb(parcel.getNf_web());
         surveyorOffice.setPhone(parcel.getNf_telefon());
         realEstateDPR.setSurveyorOffice((surveyorOffice));
-
-        extract.setRealEstate(realEstateDPR);
-        
         
         // Map
-        double xmin = parcel.getXmin();
-        double xmax = parcel.getXmax();
-        double ymin = parcel.getYmin();
-        double ymax = parcel.getYmax();
-        byte[] mapImage = imageService.getWmsImage(wmsUrl, wmsLayerName, xmin, xmax, ymin, ymax);
-        extract.setMap(mapImage);
+        byte[] mapImage = imageService.getWmsImage(wmsUrl, wmsLayerName, parcel);
+        realEstateDPR.setMap(mapImage);
         
+        extract.setRealEstate(realEstateDPR);
+
         getExtractByIdResponse.setExtract(extract);
         return getExtractByIdResponse;
     }

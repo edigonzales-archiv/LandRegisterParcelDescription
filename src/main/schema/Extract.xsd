@@ -17,7 +17,6 @@
     		<xsd:element name="CreationDate" type="xsd:dateTime"
     			minOccurs="1" maxOccurs="1">
     		</xsd:element>
-    		<xsd:element name="Map" type="xsd:base64Binary" minOccurs="0"></xsd:element>
     	</xsd:sequence>
     </xsd:complexType>
 
@@ -153,7 +152,8 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
-    	</xsd:sequence>
+            <xsd:element name="Map" type="xsd:base64Binary" minOccurs="0"></xsd:element>
+        </xsd:sequence>
     </xsd:complexType>
 
     <xsd:complexType name="LandCoverShareType">

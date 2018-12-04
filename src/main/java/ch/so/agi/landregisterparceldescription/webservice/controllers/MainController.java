@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ch.so.agi.landregisterparceldescription.webservice.services.GetExtractByIdResponseTypeServiceImpl;
 import ch.so.agi.landregisterparceldescription.webservice.services.GetPdfExtractByIdServiceImpl;
+import ch.so.agi.landregisterparceldescription.webservice.services.ImageServiceException;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.GetExtractByIdResponse;
 import net.sf.saxon.s9api.SaxonApiException;
 
@@ -45,7 +46,7 @@ public class MainController {
     @RequestMapping(value="/extract/xml/{egrid:.{14,14}}", method=RequestMethod.GET,
             produces={MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> getXmlExtractById (
-            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, IOException, URISyntaxException {
+            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, ImageServiceException {
         GetExtractByIdResponse extractResponse = getExtractByIdResponseTypeService.getExtractById(egrid);
         return ResponseEntity.ok(extractResponse);
     }
@@ -53,13 +54,13 @@ public class MainController {
     @RequestMapping(value="/extract/pdf/{egrid:.{14,14}}", method=RequestMethod.GET,
             produces={MediaType.APPLICATION_PDF_VALUE})
     public @ResponseBody byte[] getPdfExtractById (
-            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, IOException, JAXBException, SaxonApiException, SAXException, TransformerException, URISyntaxException {
+            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, IOException, JAXBException, SaxonApiException, SAXException, TransformerException, ImageServiceException {
         File pdf = getPdfExtractByIdService.getExtract(egrid);
         InputStream in = new FileInputStream(pdf);
         return IOUtils.toByteArray(in);
     }
     
-    @ExceptionHandler({IllegalArgumentException.class, NumberFormatException.class, org.springframework.web.bind.UnsatisfiedServletRequestParameterException.class, DatatypeConfigurationException.class, SAXException.class, TransformerConfigurationException.class, TransformerException.class, IOException.class, URISyntaxException.class})
+    @ExceptionHandler({IllegalArgumentException.class, NumberFormatException.class, org.springframework.web.bind.UnsatisfiedServletRequestParameterException.class, DatatypeConfigurationException.class, SAXException.class, TransformerConfigurationException.class, TransformerException.class, ImageServiceException.class})
     private ResponseEntity<?> handleBadRequests(Exception e) {
         log.error(e.getMessage());      
         return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);

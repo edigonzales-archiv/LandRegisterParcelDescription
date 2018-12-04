@@ -61,7 +61,7 @@ public class GetPdfExtractByIdServiceImpl implements GetPdfExtractByIdService {
     GetExtractByIdResponseTypeServiceImpl getExtractByIdResponseTypeService;
 
     @Override
-    public File getExtract(String egrid) throws IOException, DatatypeConfigurationException, JAXBException, SaxonApiException, SAXException, TransformerException, URISyntaxException {
+    public File getExtract(String egrid) throws IOException, DatatypeConfigurationException, JAXBException, SaxonApiException, SAXException, TransformerException, ImageServiceException {
         Path tempDir = Files.createTempDirectory("parceldescription_extract_");
 
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

@@ -47,6 +47,7 @@ public class ParcelDAOImpl implements ParcelDAO {
                 "  ST_XMax(grundstueck.geometrie) AS xmax,\n" + 
                 "  ST_YMin(grundstueck.geometrie) AS ymin,\n" + 
                 "  ST_YMax(grundstueck.geometrie) AS ymax,\n" + 
+                "  ST_AsBinary(grundstueck.geometrie) AS geometry,\n" +
                 "  gb_kreis.aname AS grundbuchname,\n" + 
                 "  gb_kreis.amtschreiberei,\n" + 
                 "  gb_kreis.amt,\n" + 

@@ -37,6 +37,7 @@ public class Parcel {
     private double xmax;
     private double ymin;
     private double ymax;
+    private byte[] geometry;
     
     public int getT_id() {
         return t_id;
@@ -253,5 +254,11 @@ public class Parcel {
     }
     public void setYmax(double ymax) {
         this.ymax = ymax;
+    }
+    public byte[] getGeometry() {
+        return geometry;
+    }
+    public void setGeometry(byte[] geometry) {
+        this.geometry = geometry;
     }
 }
