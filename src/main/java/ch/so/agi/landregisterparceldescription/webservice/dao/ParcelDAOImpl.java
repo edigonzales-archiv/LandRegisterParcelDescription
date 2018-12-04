@@ -43,6 +43,10 @@ public class ParcelDAOImpl implements ParcelDAO {
                 "  grundstueck.egrid,\n" + 
                 "  grundstueck.flaechenmass,\n" + 
                 "  grundstueck.bfs_nr,\n" + 
+                "  ST_XMin(grundstueck.geometrie) AS xmin,\n" + 
+                "  ST_XMax(grundstueck.geometrie) AS xmax,\n" + 
+                "  ST_YMin(grundstueck.geometrie) AS ymin,\n" + 
+                "  ST_YMax(grundstueck.geometrie) AS ymax,\n" + 
                 "  gb_kreis.aname AS grundbuchname,\n" + 
                 "  gb_kreis.amtschreiberei,\n" + 
                 "  gb_kreis.amt,\n" + 
@@ -76,7 +80,7 @@ public class ParcelDAOImpl implements ParcelDAO {
                 "  LEFT JOIN nomenklatur\n" + 
                 "  ON 1=1\n" + 
                 "WHERE\n" + 
-                "  grundstueck.egrid = :egrid\n" + 
+                "  grundstueck.egrid = 'CH310663327779'\n" + 
                 "LIMIT 1\n" + 
                 ";";
         

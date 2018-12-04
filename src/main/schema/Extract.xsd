@@ -14,7 +14,10 @@
     		<xsd:element name="RealEstate"
     			type="extract:RealEstate_DPR">
     		</xsd:element>
-    		<xsd:element name="CreationDate" type="xsd:dateTime" minOccurs="1" maxOccurs="1"></xsd:element>
+    		<xsd:element name="CreationDate" type="xsd:dateTime"
+    			minOccurs="1" maxOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="Map" type="xsd:base64Binary" minOccurs="0"></xsd:element>
     	</xsd:sequence>
     </xsd:complexType>
 

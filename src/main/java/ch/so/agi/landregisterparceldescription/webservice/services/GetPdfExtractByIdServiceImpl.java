@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
@@ -60,7 +61,7 @@ public class GetPdfExtractByIdServiceImpl implements GetPdfExtractByIdService {
     GetExtractByIdResponseTypeServiceImpl getExtractByIdResponseTypeService;
 
     @Override
-    public File getExtract(String egrid) throws IOException, DatatypeConfigurationException, JAXBException, SaxonApiException, SAXException, TransformerException {
+    public File getExtract(String egrid) throws IOException, DatatypeConfigurationException, JAXBException, SaxonApiException, SAXException, TransformerException, URISyntaxException {
         Path tempDir = Files.createTempDirectory("parceldescription_extract_");
 
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

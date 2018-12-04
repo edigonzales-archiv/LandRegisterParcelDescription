@@ -1,5 +1,7 @@
 package ch.so.agi.landregisterparceldescription.webservice.services;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Base64;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -11,6 +13,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import ch.so.agi.landregisterparceldescription.webservice.dao.LandCoverShareDAOImpl;
@@ -34,8 +37,16 @@ public class GetExtractByIdResponseTypeServiceImpl implements GetExtractByIdResp
     @Autowired
     private LandCoverShareDAOImpl landCoverShareDAO;
     
+    @Autowired
+    private ImageServiceImpl imageService;
+    
+    @Value("${parcel.description.map.wms-url}")
+    private String wmsUrl;
+    @Value("${parcel.description.map.wms-layer}")
+    private String wmsLayerName;
+    
     @Override
-    public GetExtractByIdResponse getExtractById(String egrid) throws DatatypeConfigurationException {
+    public GetExtractByIdResponse getExtractById(String egrid) throws DatatypeConfigurationException, IOException, URISyntaxException {
         ObjectFactory objectFactory = new ObjectFactory();
 
         Parcel parcel = parcelDAO.getParcelByEgrid(egrid);
@@ -110,6 +121,15 @@ public class GetExtractByIdResponseTypeServiceImpl implements GetExtractByIdResp
         realEstateDPR.setSurveyorOffice((surveyorOffice));
 
         extract.setRealEstate(realEstateDPR);
+        
+        
+        // Map
+        double xmin = parcel.getXmin();
+        double xmax = parcel.getXmax();
+        double ymin = parcel.getYmin();
+        double ymax = parcel.getYmax();
+        byte[] mapImage = imageService.getWmsImage(wmsUrl, wmsLayerName, xmin, xmax, ymin, ymax);
+        extract.setMap(mapImage);
         
         getExtractByIdResponse.setExtract(extract);
         return getExtractByIdResponse;

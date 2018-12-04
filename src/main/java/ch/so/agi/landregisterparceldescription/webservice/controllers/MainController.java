@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.Base64;
 
 import javax.xml.bind.JAXBException;
@@ -44,7 +45,7 @@ public class MainController {
     @RequestMapping(value="/extract/xml/{egrid:.{14,14}}", method=RequestMethod.GET,
             produces={MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> getXmlExtractById (
-            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException {
+            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, IOException, URISyntaxException {
         GetExtractByIdResponse extractResponse = getExtractByIdResponseTypeService.getExtractById(egrid);
         return ResponseEntity.ok(extractResponse);
     }
@@ -52,13 +53,13 @@ public class MainController {
     @RequestMapping(value="/extract/pdf/{egrid:.{14,14}}", method=RequestMethod.GET,
             produces={MediaType.APPLICATION_PDF_VALUE})
     public @ResponseBody byte[] getPdfExtractById (
-            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, IOException, JAXBException, SaxonApiException, SAXException, TransformerException {
+            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, IOException, JAXBException, SaxonApiException, SAXException, TransformerException, URISyntaxException {
         File pdf = getPdfExtractByIdService.getExtract(egrid);
         InputStream in = new FileInputStream(pdf);
         return IOUtils.toByteArray(in);
     }
     
-    @ExceptionHandler({IllegalArgumentException.class, NumberFormatException.class, org.springframework.web.bind.UnsatisfiedServletRequestParameterException.class, DatatypeConfigurationException.class, SAXException.class, TransformerConfigurationException.class, TransformerException.class})
+    @ExceptionHandler({IllegalArgumentException.class, NumberFormatException.class, org.springframework.web.bind.UnsatisfiedServletRequestParameterException.class, DatatypeConfigurationException.class, SAXException.class, TransformerConfigurationException.class, TransformerException.class, IOException.class, URISyntaxException.class})
     private ResponseEntity<?> handleBadRequests(Exception e) {
         log.error(e.getMessage());      
         return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
