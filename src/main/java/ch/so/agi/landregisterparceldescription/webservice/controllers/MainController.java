@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.util.Base64;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -28,6 +26,7 @@ import org.xml.sax.SAXException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ch.so.agi.landregisterparceldescription.webservice.services.GetExtractByIdResponseTypeServiceImpl;
+import ch.so.agi.landregisterparceldescription.webservice.services.GetParcelsByIdServiceImpl;
 import ch.so.agi.landregisterparceldescription.webservice.services.GetPdfExtractByIdServiceImpl;
 import ch.so.agi.landregisterparceldescription.webservice.services.ImageServiceException;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.GetExtractByIdResponse;
@@ -42,6 +41,9 @@ public class MainController {
     
     @Autowired
     GetPdfExtractByIdServiceImpl getPdfExtractByIdService;
+    
+    @Autowired
+    GetParcelsByIdServiceImpl getParcelsByIdService;
     
     @RequestMapping(value="/extract/xml/{egrid:.{14,14}}", method=RequestMethod.GET,
             produces={MediaType.APPLICATION_XML_VALUE})
@@ -59,6 +61,19 @@ public class MainController {
         InputStream in = new FileInputStream(pdf);
         return IOUtils.toByteArray(in);
     }
+    
+    @RequestMapping(value="/fubar/xml/{egrid:.{14,14}}", method=RequestMethod.GET)
+    public @ResponseBody void getParcelsById (
+            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, IOException, JAXBException, SaxonApiException, SAXException, TransformerException, ImageServiceException {
+            
+        try {
+            getParcelsByIdService.getParcelById("CH240632707339");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    
     
     @ExceptionHandler({IllegalArgumentException.class, NumberFormatException.class, org.springframework.web.bind.UnsatisfiedServletRequestParameterException.class, DatatypeConfigurationException.class, SAXException.class, TransformerConfigurationException.class, TransformerException.class, ImageServiceException.class})
     private ResponseEntity<?> handleBadRequests(Exception e) {

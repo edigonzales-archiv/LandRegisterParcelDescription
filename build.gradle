@@ -1,19 +1,20 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.6.RELEASE'
+        springBootVersion = '2.1.2.RELEASE'
     }
     repositories {
         mavenCentral()
         jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("org.unbroken-dome.gradle-plugins:gradle-xjc-plugin:1.4.0")
     }
 }
 
 plugins {
     id 'pl.allegro.tech.build.axion-release' version '1.9.3'
+    id "org.unbroken-dome.xjc" version "1.4.1"
 }
 
 apply plugin: 'java'
@@ -82,9 +83,14 @@ bootRun {
     classpath = sourceSets.main.runtimeClasspath + sourceSets.generated.output
 }
 
+// GBDBS.xsd: (relativ) schema location has to be removed. xjc will not respect 
+// catalog if a schema location present.
 xjcGenerate {
     source = fileTree('src/main/schema') { include '*.xsd' }
     bindingFiles = fileTree('src/main/schema') { include '*.xjb' }
+    catalogs = fileTree('src/main/schema') { include '*.cat' }
     outputDirectory = file('src/generated/java')
     extension = true
+    verbose = true
 }
+
