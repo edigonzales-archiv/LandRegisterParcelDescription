@@ -12,7 +12,7 @@
     			minOccurs="1">
     		</xsd:element>
     		<xsd:element name="RealEstate"
-    			type="extract:RealEstate_DPR">
+    			type="extract:RealEstate_DPR" minOccurs="0" maxOccurs="1">
     		</xsd:element>
     		<xsd:element name="CreationDate" type="xsd:dateTime"
     			minOccurs="1" maxOccurs="1">
