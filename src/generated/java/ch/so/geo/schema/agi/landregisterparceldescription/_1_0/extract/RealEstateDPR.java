@@ -59,6 +59,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *           &lt;/simpleType&gt;
  *         &lt;/element&gt;
  *         &lt;element name="Map" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
+ *         &lt;element name="Owners" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}Person" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -80,7 +81,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "municipality",
     "subunitOfLandRegister",
     "landRegistryArea",
-    "map"
+    "map",
+    "owners"
 })
 public class RealEstateDPR {
 
@@ -115,6 +117,8 @@ public class RealEstateDPR {
     protected int landRegistryArea;
     @XmlElement(name = "Map")
     protected byte[] map;
+    @XmlElement(name = "Owners")
+    protected List<Person> owners;
 
     /**
      * Gets the value of the number property.
@@ -397,6 +401,35 @@ public class RealEstateDPR {
      */
     public void setMap(byte[] value) {
         this.map = value;
+    }
+
+    /**
+     * Gets the value of the owners property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the owners property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getOwners().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Person }
+     * 
+     * 
+     */
+    public List<Person> getOwners() {
+        if (owners == null) {
+            owners = new ArrayList<Person>();
+        }
+        return this.owners;
     }
 
 }

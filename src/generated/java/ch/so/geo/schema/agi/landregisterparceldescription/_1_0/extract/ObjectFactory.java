@@ -69,4 +69,20 @@ public class ObjectFactory {
         return new LandCoverShareType();
     }
 
+    /**
+     * Create an instance of {@link LegalPerson }
+     * 
+     */
+    public LegalPerson createLegalPerson() {
+        return new LegalPerson();
+    }
+
+    /**
+     * Create an instance of {@link NaturalPerson }
+     * 
+     */
+    public NaturalPerson createNaturalPerson() {
+        return new NaturalPerson();
+    }
+
 }

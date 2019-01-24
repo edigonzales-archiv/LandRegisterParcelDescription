@@ -23,6 +23,7 @@ import ch.so.agi.landregisterparceldescription.webservice.models.LandCoverShare;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.Extract;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.GetExtractByIdResponse;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.LandCoverShareType;
+import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.LegalPerson;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.ObjectFactory;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.Office;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.RealEstateDPR;
@@ -119,6 +120,13 @@ public class GetExtractByIdResponseTypeServiceImpl implements GetExtractByIdResp
         surveyorOffice.setOfficeAtWeb(parcel.getNf_web());
         surveyorOffice.setPhone(parcel.getNf_telefon());
         realEstateDPR.setSurveyorOffice((surveyorOffice));
+        
+        LegalPerson legalPerson = objectFactory.createLegalPerson();
+        legalPerson.setName("fubar");
+        
+        realEstateDPR.getOwners().add(legalPerson);
+        
+        
         
         // Map
         byte[] mapImage = imageService.getWmsImage(wmsUrl, wmsLayerName, parcel);
