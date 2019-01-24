@@ -12,7 +12,7 @@ http://localhost:8887/parcel/extract/xml/CH527335320693 (Baurecht)
 CH310663327779 (viele Flurnamen)
 CH493273420604 (grösstes Grundstück)
 
-http://localhost:8887/parcel/fubar/xml/CH310663327779
+http://localhost:8887/parcel/fubar/xml/CH240632707339
 ```
 
 
