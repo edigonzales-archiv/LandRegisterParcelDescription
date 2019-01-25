@@ -169,15 +169,15 @@ public class GrundstueckType
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link InhaltSelbstaendigesDauerndesRechtType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltGewoehnlichesMiteigentumType }{@code >}
+     * {@link JAXBElement }{@code <}{@link InhaltStockwerksEinheitType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltGrundstueckType }{@code >}
-     * {@link JAXBElement }{@code <}{@link InhaltGewoehnlichesSDRType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltLiegenschaftType }{@code >}
+     * {@link JAXBElement }{@code <}{@link InhaltGewoehnlichesSDRType }{@code >}
+     * {@link JAXBElement }{@code <}{@link InhaltSelbstaendigesDauerndesRechtType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltBergwerkType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltKonzessionType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltMiteigentumsAnteilType }{@code >}
-     * {@link JAXBElement }{@code <}{@link InhaltStockwerksEinheitType }{@code >}
      * 
      * 
      */

@@ -1,6 +1,7 @@
 package ch.so.agi.landregisterparceldescription.webservice.services;
 
+import ch.admin.geo.schemas.bj.tgbv.gbdbs._2.GetParcelsByIdResponse;
 
 public interface GetParcelsByIdService {
-    void getParcelById(String parcelId) throws Exception;
+    GetParcelsByIdResponse getParcelById(String egrid) throws Exception;
 }

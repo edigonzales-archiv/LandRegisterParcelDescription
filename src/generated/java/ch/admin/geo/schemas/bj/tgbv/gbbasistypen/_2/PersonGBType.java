@@ -106,9 +106,9 @@ public class PersonGBType
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link InhaltGemeinschaftType }{@code >}
-     * {@link JAXBElement }{@code <}{@link InhaltPersonGBType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltJuristischePersonGBType }{@code >}
+     * {@link JAXBElement }{@code <}{@link InhaltPersonGBType }{@code >}
+     * {@link JAXBElement }{@code <}{@link InhaltGemeinschaftType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltNatuerlichePersonGBType }{@code >}
      * 
      * 
@@ -125,12 +125,12 @@ public class PersonGBType
      * 
      * @return
      *     possible object is
-     *     {@link JAXBElement }{@code <}{@link OeffentlicheKoerperschaftType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link NatuerlichePersonType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link PersonStammType }{@code >}
      *     {@link JAXBElement }{@code <}{@link AuslaendischeRechtsformType }{@code >}
      *     {@link JAXBElement }{@code <}{@link JuristischePersonType }{@code >}
      *     {@link JAXBElement }{@code <}{@link SchweizerischeJuristischePersonType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link NatuerlichePersonType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link OeffentlicheKoerperschaftType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link PersonStammType }{@code >}
      *     
      */
     public JAXBElement<? extends PersonStammType> getPersonStamm() {
@@ -142,12 +142,12 @@ public class PersonGBType
      * 
      * @param value
      *     allowed object is
-     *     {@link JAXBElement }{@code <}{@link OeffentlicheKoerperschaftType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link NatuerlichePersonType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link PersonStammType }{@code >}
      *     {@link JAXBElement }{@code <}{@link AuslaendischeRechtsformType }{@code >}
      *     {@link JAXBElement }{@code <}{@link JuristischePersonType }{@code >}
      *     {@link JAXBElement }{@code <}{@link SchweizerischeJuristischePersonType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link NatuerlichePersonType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link OeffentlicheKoerperschaftType }{@code >}
+     *     {@link JAXBElement }{@code <}{@link PersonStammType }{@code >}
      *     
      */
     public void setPersonStamm(JAXBElement<? extends PersonStammType> value) {

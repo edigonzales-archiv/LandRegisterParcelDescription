@@ -165,7 +165,13 @@
     		<xsd:element name="Map" type="xsd:base64Binary"
     			minOccurs="0">
     		</xsd:element>
-    		<xsd:element name="Owners" type="extract:Person" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+    		<xsd:element name="Owner" type="extract:PersonLR"
+    			minOccurs="0" maxOccurs="unbounded">
+    		</xsd:element>
+    		<xsd:element name="ReferenceWMS" type="xsd:anyURI"
+    			minOccurs="0" maxOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="Building" type="extract:BuildingType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
     	</xsd:sequence>
     </xsd:complexType>
 
@@ -177,12 +183,13 @@
     	</xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="Person">
+    <xsd:complexType name="PersonLR">
     	<xsd:sequence>
     		<xsd:element name="Name" type="xsd:normalizedString"
     			minOccurs="1" maxOccurs="1">
     		</xsd:element>
-    		<xsd:element name="PersonType" minOccurs="1" maxOccurs="1">
+    		<xsd:element name="PersonType" minOccurs="1"
+    			maxOccurs="1">
     			<xsd:simpleType>
     				<xsd:restriction base="xsd:string">
     					<xsd:enumeration value="legal"></xsd:enumeration>
@@ -190,10 +197,21 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
-    		<xsd:element name="PostalAddress" type="extract:Address" minOccurs="1" maxOccurs="1"></xsd:element>
+    		<xsd:element name="PostalAddress" type="extract:Address"
+    			minOccurs="1" maxOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="Vorname" type="xsd:normalizedString" minOccurs="0"></xsd:element>
     	</xsd:sequence>
     </xsd:complexType>
 
 
 
+
+    <xsd:complexType name="BuildingType">
+    	<xsd:sequence>
+    		<xsd:element name="Egid" type="xsd:int" minOccurs="0" maxOccurs="1"></xsd:element>
+    		<xsd:element name="Edid" type="xsd:int" minOccurs="0" maxOccurs="1"></xsd:element>
+    		<xsd:element name="PostalAddress" type="extract:Address" minOccurs="0" maxOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
 </xsd:schema>

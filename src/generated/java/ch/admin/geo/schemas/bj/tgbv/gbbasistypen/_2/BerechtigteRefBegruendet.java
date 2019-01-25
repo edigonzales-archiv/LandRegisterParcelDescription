@@ -30,9 +30,9 @@ import javax.xml.namespace.QName;
  *         &lt;element name="ref" type="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisId/2.1}BerechtigteId"/&gt;
  *         &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}extensions" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
- *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
- *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
  *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
+ *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
+ *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
  *       &lt;anyAttribute processContents='lax'/&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -53,17 +53,11 @@ public class BerechtigteRefBegruendet {
     @XmlSchemaType(name = "normalizedString")
     protected String ref;
     protected Extensions extensions;
-    @XmlAttribute(name = "bisEGBTBID")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String bisEGBTBID;
-    @XmlAttribute(name = "bisTagebuchNummer")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String bisTagebuchNummer;
-    @XmlAttribute(name = "bisTagebuchDatumZeit")
-    protected XMLGregorianCalendar bisTagebuchDatumZeit;
-    @XmlAttribute(name = "bisIdx")
+    @XmlAttribute(name = "operation")
+    protected Operation operation;
+    @XmlAttribute(name = "operationOrder")
     @XmlSchemaType(name = "positiveInteger")
-    protected BigInteger bisIdx;
+    protected BigInteger operationOrder;
     @XmlAttribute(name = "vonEGBTBID")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     protected String vonEGBTBID;
@@ -75,11 +69,17 @@ public class BerechtigteRefBegruendet {
     @XmlAttribute(name = "vonIdx")
     @XmlSchemaType(name = "positiveInteger")
     protected BigInteger vonIdx;
-    @XmlAttribute(name = "operation")
-    protected Operation operation;
-    @XmlAttribute(name = "operationOrder")
+    @XmlAttribute(name = "bisEGBTBID")
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    protected String bisEGBTBID;
+    @XmlAttribute(name = "bisTagebuchNummer")
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    protected String bisTagebuchNummer;
+    @XmlAttribute(name = "bisTagebuchDatumZeit")
+    protected XMLGregorianCalendar bisTagebuchDatumZeit;
+    @XmlAttribute(name = "bisIdx")
     @XmlSchemaType(name = "positiveInteger")
-    protected BigInteger operationOrder;
+    protected BigInteger bisIdx;
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 
@@ -132,99 +132,51 @@ public class BerechtigteRefBegruendet {
     }
 
     /**
-     * Gets the value of the bisEGBTBID property.
+     * Gets the value of the operation property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Operation }
      *     
      */
-    public String getBisEGBTBID() {
-        return bisEGBTBID;
+    public Operation getOperation() {
+        return operation;
     }
 
     /**
-     * Sets the value of the bisEGBTBID property.
+     * Sets the value of the operation property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Operation }
      *     
      */
-    public void setBisEGBTBID(String value) {
-        this.bisEGBTBID = value;
+    public void setOperation(Operation value) {
+        this.operation = value;
     }
 
     /**
-     * Gets the value of the bisTagebuchNummer property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getBisTagebuchNummer() {
-        return bisTagebuchNummer;
-    }
-
-    /**
-     * Sets the value of the bisTagebuchNummer property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setBisTagebuchNummer(String value) {
-        this.bisTagebuchNummer = value;
-    }
-
-    /**
-     * Gets the value of the bisTagebuchDatumZeit property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getBisTagebuchDatumZeit() {
-        return bisTagebuchDatumZeit;
-    }
-
-    /**
-     * Sets the value of the bisTagebuchDatumZeit property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setBisTagebuchDatumZeit(XMLGregorianCalendar value) {
-        this.bisTagebuchDatumZeit = value;
-    }
-
-    /**
-     * Gets the value of the bisIdx property.
+     * Gets the value of the operationOrder property.
      * 
      * @return
      *     possible object is
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getBisIdx() {
-        return bisIdx;
+    public BigInteger getOperationOrder() {
+        return operationOrder;
     }
 
     /**
-     * Sets the value of the bisIdx property.
+     * Sets the value of the operationOrder property.
      * 
      * @param value
      *     allowed object is
      *     {@link BigInteger }
      *     
      */
-    public void setBisIdx(BigInteger value) {
-        this.bisIdx = value;
+    public void setOperationOrder(BigInteger value) {
+        this.operationOrder = value;
     }
 
     /**
@@ -324,51 +276,99 @@ public class BerechtigteRefBegruendet {
     }
 
     /**
-     * Gets the value of the operation property.
+     * Gets the value of the bisEGBTBID property.
      * 
      * @return
      *     possible object is
-     *     {@link Operation }
+     *     {@link String }
      *     
      */
-    public Operation getOperation() {
-        return operation;
+    public String getBisEGBTBID() {
+        return bisEGBTBID;
     }
 
     /**
-     * Sets the value of the operation property.
+     * Sets the value of the bisEGBTBID property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Operation }
+     *     {@link String }
      *     
      */
-    public void setOperation(Operation value) {
-        this.operation = value;
+    public void setBisEGBTBID(String value) {
+        this.bisEGBTBID = value;
     }
 
     /**
-     * Gets the value of the operationOrder property.
+     * Gets the value of the bisTagebuchNummer property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getBisTagebuchNummer() {
+        return bisTagebuchNummer;
+    }
+
+    /**
+     * Sets the value of the bisTagebuchNummer property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBisTagebuchNummer(String value) {
+        this.bisTagebuchNummer = value;
+    }
+
+    /**
+     * Gets the value of the bisTagebuchDatumZeit property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public XMLGregorianCalendar getBisTagebuchDatumZeit() {
+        return bisTagebuchDatumZeit;
+    }
+
+    /**
+     * Sets the value of the bisTagebuchDatumZeit property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public void setBisTagebuchDatumZeit(XMLGregorianCalendar value) {
+        this.bisTagebuchDatumZeit = value;
+    }
+
+    /**
+     * Gets the value of the bisIdx property.
      * 
      * @return
      *     possible object is
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getOperationOrder() {
-        return operationOrder;
+    public BigInteger getBisIdx() {
+        return bisIdx;
     }
 
     /**
-     * Sets the value of the operationOrder property.
+     * Sets the value of the bisIdx property.
      * 
      * @param value
      *     allowed object is
      *     {@link BigInteger }
      *     
      */
-    public void setOperationOrder(BigInteger value) {
-        this.operationOrder = value;
+    public void setBisIdx(BigInteger value) {
+        this.bisIdx = value;
     }
 
     /**

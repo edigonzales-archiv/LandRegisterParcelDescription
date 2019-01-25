@@ -188,14 +188,14 @@ public class GetParcelIndexResponse {
          * 
          * @return
          *     possible object is
-         *     {@link JAXBElement }{@code <}{@link KonzessionType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link MiteigentumsAnteilType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link GrundstueckType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link GewoehnlichesSDRType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link LiegenschaftType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link StockwerksEinheitType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link SelbstaendigesDauerndesRechtType }{@code >}
          *     {@link JAXBElement }{@code <}{@link GewoehnlichesMiteigentumType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link StockwerksEinheitType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link KonzessionType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link GrundstueckType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link LiegenschaftType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link MiteigentumsAnteilType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link SelbstaendigesDauerndesRechtType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link GewoehnlichesSDRType }{@code >}
          *     {@link JAXBElement }{@code <}{@link BergwerkType }{@code >}
          *     
          */
@@ -208,14 +208,14 @@ public class GetParcelIndexResponse {
          * 
          * @param value
          *     allowed object is
-         *     {@link JAXBElement }{@code <}{@link KonzessionType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link MiteigentumsAnteilType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link GrundstueckType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link GewoehnlichesSDRType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link LiegenschaftType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link StockwerksEinheitType }{@code >}
-         *     {@link JAXBElement }{@code <}{@link SelbstaendigesDauerndesRechtType }{@code >}
          *     {@link JAXBElement }{@code <}{@link GewoehnlichesMiteigentumType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link StockwerksEinheitType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link KonzessionType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link GrundstueckType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link LiegenschaftType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link MiteigentumsAnteilType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link SelbstaendigesDauerndesRechtType }{@code >}
+         *     {@link JAXBElement }{@code <}{@link GewoehnlichesSDRType }{@code >}
          *     {@link JAXBElement }{@code <}{@link BergwerkType }{@code >}
          *     
          */

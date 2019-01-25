@@ -48,7 +48,7 @@ public class MainController {
     @RequestMapping(value="/extract/xml/{egrid:.{14,14}}", method=RequestMethod.GET,
             produces={MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> getXmlExtractById (
-            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, ImageServiceException {
+            @PathVariable("egrid") String egrid) throws Exception {
         GetExtractByIdResponse extractResponse = getExtractByIdResponseTypeService.getExtractById(egrid);
         return ResponseEntity.ok(extractResponse);
     }
@@ -56,26 +56,24 @@ public class MainController {
     @RequestMapping(value="/extract/pdf/{egrid:.{14,14}}", method=RequestMethod.GET,
             produces={MediaType.APPLICATION_PDF_VALUE})
     public @ResponseBody byte[] getPdfExtractById (
-            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, IOException, JAXBException, SaxonApiException, SAXException, TransformerException, ImageServiceException {
+            @PathVariable("egrid") String egrid) throws Exception {
         File pdf = getPdfExtractByIdService.getExtract(egrid);
         InputStream in = new FileInputStream(pdf);
         return IOUtils.toByteArray(in);
     }
     
-    @RequestMapping(value="/fubar/xml/{egrid:.{14,14}}", method=RequestMethod.GET)
-    public @ResponseBody void getParcelsById (
-            @PathVariable("egrid") String egrid) throws DatatypeConfigurationException, IOException, JAXBException, SaxonApiException, SAXException, TransformerException, ImageServiceException {
-            
-        try {
-            getParcelsByIdService.getParcelById("CH240632707339");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @RequestMapping(value="/fubar/xml/{egrid:.{14,14}}", method=RequestMethod.GET)
+//    public @ResponseBody void getParcelsById (
+//            @PathVariable("egrid") String egrid) throws Exception {
+//            
+//        try {
+//            getParcelsByIdService.getParcelById(egrid);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    
-    
-    @ExceptionHandler({IllegalArgumentException.class, NumberFormatException.class, org.springframework.web.bind.UnsatisfiedServletRequestParameterException.class, DatatypeConfigurationException.class, SAXException.class, TransformerConfigurationException.class, TransformerException.class, ImageServiceException.class})
+    @ExceptionHandler({Exception.class})
     private ResponseEntity<?> handleBadRequests(Exception e) {
         log.error(e.getMessage());      
         return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);

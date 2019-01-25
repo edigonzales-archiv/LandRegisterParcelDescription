@@ -12,9 +12,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -84,6 +86,28 @@ public class ImageServiceImpl implements ImageService {
 
     final private String imageFormat = "png";
 
+
+    @Override
+    public String getWmsGetMapRequest(String url, String layerName, Parcel parcel) throws Exception {
+        WKBReader wkbReader = new WKBReader();
+        Geometry polygon = null;
+        try {
+            polygon = wkbReader.read(parcel.getGeometry());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new ImageServiceException(e.getMessage());
+        }
+
+        Envelope mapEnvelope = calculateBoundingBox(polygon);
+        log.info(mapEnvelope.toString());
+
+        String getMapRequest = createGetMapRequest(url, layerName, mapEnvelope, false);
+        log.info(getMapRequest);
+        
+        
+        return URLEncoder.encode(getMapRequest, java.nio.charset.StandardCharsets.UTF_8.toString());
+    }
+    
     @Override
     public byte[] getWmsImage(String url, String layerName, Parcel parcel) throws ImageServiceException {
         WKBReader wkbReader = new WKBReader();
@@ -98,7 +122,7 @@ public class ImageServiceImpl implements ImageService {
         Envelope mapEnvelope = calculateBoundingBox(polygon);
         log.info(mapEnvelope.toString());
 
-        String getMapRequest = createGetMapRequest(url, layerName, mapEnvelope);
+        String getMapRequest = createGetMapRequest(url, layerName, mapEnvelope, true);
         log.info(getMapRequest);
 
         // LaxRedirectStrategy() adds HTTP REDIRECT support to GET and POST methods
@@ -305,14 +329,21 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-    private String createGetMapRequest(String url, String layerName, Envelope envelope) {
+    private String createGetMapRequest(String url, String layerName, Envelope envelope, boolean respectCustomDpi) {
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append(url);
         queryBuilder.append("?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image/" + imageFormat);
         queryBuilder.append("&SRS=EPSG:2056&CRS=EPSG:2056&LAYERS=" + layerName);
-        queryBuilder.append("&DPI=" + dpi);
+        
+        double wmsWidthPx;
+        if (respectCustomDpi) {
+            queryBuilder.append("&DPI=" + dpi);
+            wmsWidthPx = mapWidthMM / 25.4 * dpi;
+        } else {
+            // see: https://issues.qgis.org/issues/6430
+            wmsWidthPx = mapWidthMM / 25.4 * 90.71;
+        }
 
-        double wmsWidthPx = mapWidthMM / 25.4 * dpi;
         double wmsHeightPx = wmsWidthPx / (mapWidthMM / mapHeightMM);
         queryBuilder.append("&WIDTH=" + Math.round(wmsWidthPx));
         queryBuilder.append("&HEIGHT=" + Math.round(wmsHeightPx));

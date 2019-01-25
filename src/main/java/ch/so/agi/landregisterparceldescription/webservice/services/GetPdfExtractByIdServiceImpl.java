@@ -39,6 +39,7 @@ import org.xml.sax.SAXException;
 
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.GetExtractByIdResponse;
 import net.sf.saxon.s9api.Processor;
+import net.sf.saxon.s9api.SAXDestination;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.s9api.XdmNode;
@@ -61,14 +62,14 @@ public class GetPdfExtractByIdServiceImpl implements GetPdfExtractByIdService {
     GetExtractByIdResponseServiceImpl getExtractByIdResponseTypeService;
 
     @Override
-    public File getExtract(String egrid) throws IOException, DatatypeConfigurationException, JAXBException, SaxonApiException, SAXException, TransformerException, ImageServiceException {
+    public File getExtract(String egrid) throws Exception {
         Path tempDir = Files.createTempDirectory("parceldescription_extract_");
 
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         
-        Resource xsltFileResource = resolver.getResource("classpath:xslt/parceldescription_extract_fo.xslt");
+        Resource xsltFileResource = resolver.getResource("classpath:xslt/parceldescription_xml2pdf.xslt");
         InputStream xsltFileInputStream = xsltFileResource.getInputStream();
-        File xsltFile = new File(Paths.get(tempDir.toFile().getAbsolutePath(), "parceldescription_extract_fo.xslt").toFile().getAbsolutePath());
+        File xsltFile = new File(Paths.get(tempDir.toFile().getAbsolutePath(), "parceldescription_xml2pdf.xslt").toFile().getAbsolutePath());
         Files.copy(xsltFileInputStream, xsltFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         IOUtils.closeQuietly(xsltFileInputStream);
         
@@ -91,37 +92,32 @@ public class GetPdfExtractByIdServiceImpl implements GetPdfExtractByIdService {
         File pdfFile = new File(Paths.get(tempDir.toFile().getAbsolutePath(), egrid + ".pdf").toFile().getAbsolutePath());
         log.info(foFile.getAbsolutePath());
 
-        // create FO file
-        // from examples in source code
+        // create xml file
         GetExtractByIdResponse extractResponse = getExtractByIdResponseTypeService.getExtractById(egrid);
         JAXBContext jaxbContext = JAXBContext.newInstance(GetExtractByIdResponse.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.marshal(extractResponse, xmlFile); 
 
+        /* transform xml file to pdf */
+        
+        // the saxon part
         Processor proc = new Processor(false);
         XsltCompiler comp = proc.newXsltCompiler();
         XsltExecutable exp = comp.compile(new StreamSource(xsltFile));
         XdmNode source = proc.newDocumentBuilder().build(new StreamSource(xmlFile));
-        Serializer outFo = proc.newSerializer(foFile);
         XsltTransformer trans = exp.load();
         trans.setInitialContextNode(source);
-        trans.setDestination(outFo);
-        trans.transform();
-            
-        // create PDF
-        // https://xmlgraphics.apache.org/fop/2.3/embedding.html
+
+        // the fop part
         FopFactory fopFactory = FopFactory.newInstance(fopXconfFile);
-        OutputStream outPdf = new BufferedOutputStream(new FileOutputStream(pdfFile));        
-        try {
-            Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outPdf);
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer(); 
-            Source src = new StreamSource(foFile);
-            Result res = new SAXResult(fop.getDefaultHandler());
-            transformer.transform(src, res);
-        } finally {
-            outPdf.close();
-        }
+        OutputStream outPdf = new BufferedOutputStream(new FileOutputStream(pdfFile)); 
+        Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outPdf);
+
+        trans.setDestination(new SAXDestination(fop.getDefaultHandler()));
+        trans.transform();
+        outPdf.close();
+        trans.close();
+
         return pdfFile;
     }
 }

@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -14,16 +15,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import ch.admin.geo.schemas.bj.tgbv.gbbasistypen._2.Adresse;
+import ch.admin.geo.schemas.bj.tgbv.gbbasistypen._2.NatuerlichePersonType;
+import ch.admin.geo.schemas.bj.tgbv.gbbasistypen._2.PersonGBType;
+import ch.admin.geo.schemas.bj.tgbv.gbbasistypen._2.PersonStammType;
+import ch.admin.geo.schemas.bj.tgbv.gbdbs._2.GetParcelsByIdResponse;
+import ch.admin.geo.schemas.bj.tgbv.gbdbs._2.GetParcelsByIdResponse.Person;
+import ch.so.agi.landregisterparceldescription.webservice.dao.BuildingAddressDAOImpl;
 import ch.so.agi.landregisterparceldescription.webservice.dao.LandCoverShareDAOImpl;
 import ch.so.agi.landregisterparceldescription.webservice.dao.ParcelDAOImpl;
 import ch.so.agi.landregisterparceldescription.webservice.models.Parcel;
+import ch.so.agi.landregisterparceldescription.webservice.models.BuildingAddress;
 import ch.so.agi.landregisterparceldescription.webservice.models.LandCoverShare;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.Address;
+import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.BuildingType;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.Extract;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.GetExtractByIdResponse;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.LandCoverShareType;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.ObjectFactory;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.Office;
+import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.PersonLR;
 import ch.so.geo.schema.agi.landregisterparceldescription._1_0.extract.RealEstateDPR;
 
 @Service
@@ -35,18 +46,23 @@ public class GetExtractByIdResponseServiceImpl implements GetExtractByIdResponse
 
     @Autowired
     private LandCoverShareDAOImpl landCoverShareDAO;
+    
+    @Autowired
+    private BuildingAddressDAOImpl buildingAddressDAO;
 
     @Autowired
     private ImageServiceImpl imageService;
+    
+    @Autowired
+    GetParcelsByIdServiceImpl getParcelsByIdService;
 
     @Value("${parcel.description.map.wms-url}")
-    private String wmsUrl;
+    private String wmsServiceUrl;
     @Value("${parcel.description.map.wms-layer}")
     private String wmsLayerName;
 
     @Override
-    public GetExtractByIdResponse getExtractById(String egrid)
-            throws DatatypeConfigurationException, ImageServiceException {
+    public GetExtractByIdResponse getExtractById(String egrid) throws Exception {
         ObjectFactory objectFactory = new ObjectFactory();
 
         Parcel parcel = parcelDAO.getParcelByEgrid(egrid);
@@ -132,14 +148,72 @@ public class GetExtractByIdResponseServiceImpl implements GetExtractByIdResponse
         surveyorOffice.setPostalAddress(addressSurveyorOffice);
         realEstateDPR.setSurveyorOffice((surveyorOffice));
 
+        // Building addresses        
+        List<BuildingAddress> listBuildingAddress = buildingAddressDAO.getBuildingAddressByEgrid(egrid);
+        for (BuildingAddress buildingAddress : listBuildingAddress) {
+            BuildingType building = objectFactory.createBuildingType();
+            
+            try {
+                int egid = buildingAddress.getEgid();
+                building.setEgid(egid);
+            } catch (NullPointerException e) {}
+            
+            try {
+                int edid = buildingAddress.getEdid();
+                building.setEdid(edid);
+            } catch (NullPointerException e) {}
+            
+            Address address = objectFactory.createAddress();
+            address.setStreet(buildingAddress.getStreetname());
+            address.setNumber(buildingAddress.getNumber());
+            address.setPostalCode(String.valueOf(buildingAddress.getPostalcode()));
+            address.setCity(buildingAddress.getCity());
+            
+            building.setPostalAddress(address);
+            realEstateDPR.getBuildings().add(building);
+        }
+        
         // Map
-        byte[] mapImage = imageService.getWmsImage(wmsUrl, wmsLayerName, parcel);
+        byte[] mapImage = imageService.getWmsImage(wmsServiceUrl, wmsLayerName, parcel);
         realEstateDPR.setMap(mapImage);
+        
+        // ReferenceWMS
+        String referenceWMS = imageService.getWmsGetMapRequest(wmsServiceUrl, wmsLayerName, parcel);
+        realEstateDPR.setReferenceWMS(referenceWMS);
 
+        // Ownership
+        GetParcelsByIdResponse getParcelsByIdResponse = getParcelsByIdService.getParcelById(egrid);
+
+        for (Person person : getParcelsByIdResponse.getPersons()) {
+            PersonGBType personGbType = person.getPersonGB().getValue();
+            PersonLR personLR = objectFactory.createPersonLR();
+           
+            // TODO: braucht es vielleicht nicht resp. wo anders.
+            if (personGbType instanceof ch.admin.geo.schemas.bj.tgbv.gbbasistypen._2.NatuerlichePersonGBType) {                    
+                JAXBElement<? extends PersonStammType> element = personGbType.getPersonStamm();
+                NatuerlichePersonType natuerlichePersonType = (NatuerlichePersonType) element.getValue();
+                
+                personLR.setName(natuerlichePersonType.getName());
+                personLR.setVorname(natuerlichePersonType.getVornamen());
+                
+                // TODO: only one address at the moment
+                List<Adresse> listAdresse = natuerlichePersonType.getAdresses();
+                for (Adresse adresse : listAdresse) {
+                    Address postalAddress = objectFactory.createAddress();
+                    postalAddress.setStreet(adresse.getStrasse());
+                    postalAddress.setNumber(adresse.getHausnummer());
+                    postalAddress.setPostalCode(adresse.getPLZ());
+                    postalAddress.setCity(adresse.getOrt());
+                    personLR.setPostalAddress(postalAddress);
+                    break;
+                }
+                
+            }
+            realEstateDPR.getOwners().add(personLR);
+        }
+        
         extract.setRealEstate(realEstateDPR);
-
         getExtractByIdResponse.setExtract(extract);
         return getExtractByIdResponse;
     }
-
 }

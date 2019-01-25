@@ -59,7 +59,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *           &lt;/simpleType&gt;
  *         &lt;/element&gt;
  *         &lt;element name="Map" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
- *         &lt;element name="Owners" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}Person" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="Owner" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}PersonLR" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="ReferenceWMS" type="{http://www.w3.org/2001/XMLSchema}anyURI" minOccurs="0"/&gt;
+ *         &lt;element name="Building" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}BuildingType" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -82,7 +84,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "subunitOfLandRegister",
     "landRegistryArea",
     "map",
-    "owners"
+    "owners",
+    "referenceWMS",
+    "buildings"
 })
 public class RealEstateDPR {
 
@@ -117,8 +121,13 @@ public class RealEstateDPR {
     protected int landRegistryArea;
     @XmlElement(name = "Map")
     protected byte[] map;
-    @XmlElement(name = "Owners")
-    protected List<Person> owners;
+    @XmlElement(name = "Owner")
+    protected List<PersonLR> owners;
+    @XmlElement(name = "ReferenceWMS")
+    @XmlSchemaType(name = "anyURI")
+    protected String referenceWMS;
+    @XmlElement(name = "Building")
+    protected List<BuildingType> buildings;
 
     /**
      * Gets the value of the number property.
@@ -421,15 +430,68 @@ public class RealEstateDPR {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Person }
+     * {@link PersonLR }
      * 
      * 
      */
-    public List<Person> getOwners() {
+    public List<PersonLR> getOwners() {
         if (owners == null) {
-            owners = new ArrayList<Person>();
+            owners = new ArrayList<PersonLR>();
         }
         return this.owners;
+    }
+
+    /**
+     * Gets the value of the referenceWMS property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getReferenceWMS() {
+        return referenceWMS;
+    }
+
+    /**
+     * Sets the value of the referenceWMS property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setReferenceWMS(String value) {
+        this.referenceWMS = value;
+    }
+
+    /**
+     * Gets the value of the buildings property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the buildings property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getBuildings().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link BuildingType }
+     * 
+     * 
+     */
+    public List<BuildingType> getBuildings() {
+        if (buildings == null) {
+            buildings = new ArrayList<BuildingType>();
+        }
+        return this.buildings;
     }
 
 }

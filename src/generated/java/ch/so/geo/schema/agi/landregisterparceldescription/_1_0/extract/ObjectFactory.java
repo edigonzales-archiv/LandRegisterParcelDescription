@@ -78,11 +78,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Person }
+     * Create an instance of {@link PersonLR }
      * 
      */
-    public Person createPerson() {
-        return new Person();
+    public PersonLR createPersonLR() {
+        return new PersonLR();
+    }
+
+    /**
+     * Create an instance of {@link BuildingType }
+     * 
+     */
+    public BuildingType createBuildingType() {
+        return new BuildingType();
     }
 
 }

@@ -11,12 +11,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * <p>Java class for Person complex type.
+ * <p>Java class for PersonLR complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Person"&gt;
+ * &lt;complexType name="PersonLR"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *           &lt;/simpleType&gt;
  *         &lt;/element&gt;
  *         &lt;element name="PostalAddress" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}Address"/&gt;
+ *         &lt;element name="Vorname" type="{http://www.w3.org/2001/XMLSchema}normalizedString" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -39,12 +40,13 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Person", propOrder = {
+@XmlType(name = "PersonLR", propOrder = {
     "name",
     "personType",
-    "postalAddress"
+    "postalAddress",
+    "vorname"
 })
-public class Person {
+public class PersonLR {
 
     @XmlElement(name = "Name", required = true)
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
@@ -54,6 +56,10 @@ public class Person {
     protected String personType;
     @XmlElement(name = "PostalAddress", required = true)
     protected Address postalAddress;
+    @XmlElement(name = "Vorname")
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    @XmlSchemaType(name = "normalizedString")
+    protected String vorname;
 
     /**
      * Gets the value of the name property.
@@ -125,6 +131,30 @@ public class Person {
      */
     public void setPostalAddress(Address value) {
         this.postalAddress = value;
+    }
+
+    /**
+     * Gets the value of the vorname property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getVorname() {
+        return vorname;
+    }
+
+    /**
+     * Sets the value of the vorname property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setVorname(String value) {
+        this.vorname = value;
     }
 
 }

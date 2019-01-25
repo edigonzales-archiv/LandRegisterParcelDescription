@@ -16,6 +16,10 @@ http://localhost:8887/parcel/fubar/xml/CH240632707339
 http://localhost:8887/parcel/extract/xml/CH240632707339
 http://localhost:8887/parcel/fubar/xml/CH310663327779
 http://localhost:8887/parcel/extract/xml/CH310663327779
+
+
+http://localhost:8887/parcel/extract/pdf/CH507006113252 (einfache Gesellschaft)
+
 ```
 
 
