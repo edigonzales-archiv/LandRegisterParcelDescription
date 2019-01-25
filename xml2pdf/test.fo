@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <fo:layout-master-set>
+        <fo:simple-page-master master-name="singlePage" margin="1cm">
+            <fo:region-body margin-top="5cm" margin-bottom="4cm" background-color="#FFFFAA"/>
+            <fo:region-before extent="4cm" background-color="#AAFFFF"/>
+            <fo:region-after extent="3cm" background-color="#FFAAFF" display-align="after"/>
+        </fo:simple-page-master>
+        <fo:simple-page-master master-name="firstPage" margin="1cm">
+            <fo:region-body margin-top="5cm" margin-bottom="2cm" background-color="#FFFFAA"/>
+            <fo:region-before extent="4cm" background-color="#AAFFFF"/>
+            <fo:region-after extent="1cm" background-color="#FFAAFF" display-align="after"/>
+        </fo:simple-page-master>
+        <fo:simple-page-master master-name="middlePage" margin="1cm">
+            <fo:region-body margin-top="2cm" margin-bottom="2cm" background-color="#FFFFAA"/>
+            <fo:region-before extent="1cm" background-color="#AAFFFF"/>
+            <fo:region-after extent="1cm" background-color="#FFAAFF" display-align="after"/>
+        </fo:simple-page-master>
+        <fo:simple-page-master master-name="lastPage" margin="1cm">
+            <fo:region-body margin-top="2cm" margin-bottom="4cm" background-color="#FFFFAA"/>
+            <fo:region-before extent="1cm" background-color="#AAFFFF"/>
+            <fo:region-after extent="3cm" background-color="#FFAAFF" display-align="after"/>
+        </fo:simple-page-master>
+        <fo:page-sequence-master master-name="allPages">
+            <fo:repeatable-page-master-alternatives>
+                <fo:conditional-page-master-reference page-position="only" master-reference="singlePage"/>
+                <fo:conditional-page-master-reference page-position="first" master-reference="firstPage"/>
+                <fo:conditional-page-master-reference page-position="rest" master-reference="middlePage"/>
+                <fo:conditional-page-master-reference page-position="last" master-reference="lastPage"/>
+            </fo:repeatable-page-master-alternatives>
+        </fo:page-sequence-master>
+    </fo:layout-master-set>
+    <fo:page-sequence master-reference="allPages">
+        <!--
+            header
+        -->
+        <fo:static-content flow-name="xsl-region-before" font-size="90%">
+            <!-- main header on every page -->
+            <fo:block>Text, logo, barcode</fo:block>
+            <!-- sub header -->
+            <fo:retrieve-marker retrieve-class-name="subHeader" retrieve-position="first-starting-within-page"/>
+        </fo:static-content>
+        <!--
+            footer
+        -->
+        <fo:static-content flow-name="xsl-region-after" font-size="90%">
+            <!-- special footer -->
+            <fo:retrieve-marker retrieve-class-name="footer" retrieve-position="first-starting-within-page"/>
+            <!-- common footer on every page -->
+            <fo:block>printing date dd/mm/yyyy</fo:block>
+        </fo:static-content>
+        <!--
+            document body
+        -->
+        <fo:flow flow-name="xsl-region-body">
+            <!-- empty blocks with markers for the header -->
+            <fo:block>
+                <!-- sub header for the first page -->
+                <fo:marker marker-class-name="subHeader">
+                    <fo:block>LARGE SUB HEADER</fo:block>
+                </fo:marker>
+            </fo:block>
+            <fo:block>
+                <!-- sub header for the not-first pages -->
+                <fo:marker marker-class-name="subHeader">
+                    <fo:block>small sub header</fo:block>
+                </fo:marker>
+            </fo:block>
+            <!-- normal content -->
+            <!-- 
+                YOUR REAL CONTENT GOES HERE 
+                (I just put some blocks with page breaks to produce a few pages)
+            -->
+            <fo:block break-after="page">Long sequence with many pages ...</fo:block>
+            <fo:block break-after="page">... bla bla bla ...</fo:block>
+            <fo:block>... the end</fo:block>
+            <!-- empty block with marker for the footer -->
+            <fo:block>
+                <!-- footer for the last page -->
+                <fo:marker marker-class-name="footer">
+                    <fo:block>TOTAL AMOUNT $$$ AND SIGNATURES</fo:block>
+                </fo:marker>
+            </fo:block>
+       </fo:flow>
+    </fo:page-sequence>
+</fo:root>

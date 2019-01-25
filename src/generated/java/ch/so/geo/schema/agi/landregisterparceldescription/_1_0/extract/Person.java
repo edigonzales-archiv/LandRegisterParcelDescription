@@ -11,24 +11,24 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * <p>Java class for Office complex type.
+ * <p>Java class for Person complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Office"&gt;
+ * &lt;complexType name="Person"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="Name"&gt;
+ *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}normalizedString"/&gt;
+ *         &lt;element name="PersonType"&gt;
  *           &lt;simpleType&gt;
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}normalizedString"&gt;
- *               &lt;minLength value="100"/&gt;
+ *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *               &lt;enumeration value="legal"/&gt;
+ *               &lt;enumeration value="natural"/&gt;
  *             &lt;/restriction&gt;
  *           &lt;/simpleType&gt;
  *         &lt;/element&gt;
- *         &lt;element name="OfficeAtWeb" type="{http://www.w3.org/2001/XMLSchema}anyURI" minOccurs="0"/&gt;
- *         &lt;element name="UID" type="{http://www.w3.org/2001/XMLSchema}normalizedString" minOccurs="0"/&gt;
  *         &lt;element name="PostalAddress" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}Address"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -39,24 +39,19 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Office", propOrder = {
+@XmlType(name = "Person", propOrder = {
     "name",
-    "officeAtWeb",
-    "uid",
+    "personType",
     "postalAddress"
 })
-public class Office {
+public class Person {
 
     @XmlElement(name = "Name", required = true)
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String name;
-    @XmlElement(name = "OfficeAtWeb")
-    @XmlSchemaType(name = "anyURI")
-    protected String officeAtWeb;
-    @XmlElement(name = "UID")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     @XmlSchemaType(name = "normalizedString")
-    protected String uid;
+    protected String name;
+    @XmlElement(name = "PersonType", required = true)
+    protected String personType;
     @XmlElement(name = "PostalAddress", required = true)
     protected Address postalAddress;
 
@@ -85,51 +80,27 @@ public class Office {
     }
 
     /**
-     * Gets the value of the officeAtWeb property.
+     * Gets the value of the personType property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getOfficeAtWeb() {
-        return officeAtWeb;
+    public String getPersonType() {
+        return personType;
     }
 
     /**
-     * Sets the value of the officeAtWeb property.
+     * Sets the value of the personType property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setOfficeAtWeb(String value) {
-        this.officeAtWeb = value;
-    }
-
-    /**
-     * Gets the value of the uid property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUID() {
-        return uid;
-    }
-
-    /**
-     * Sets the value of the uid property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUID(String value) {
-        this.uid = value;
+    public void setPersonType(String value) {
+        this.personType = value;
     }
 
     /**

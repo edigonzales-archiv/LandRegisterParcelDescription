@@ -54,6 +54,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Address }
+     * 
+     */
+    public Address createAddress() {
+        return new Address();
+    }
+
+    /**
      * Create an instance of {@link RealEstateDPR }
      * 
      */
@@ -70,19 +78,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link LegalPerson }
+     * Create an instance of {@link Person }
      * 
      */
-    public LegalPerson createLegalPerson() {
-        return new LegalPerson();
-    }
-
-    /**
-     * Create an instance of {@link NaturalPerson }
-     * 
-     */
-    public NaturalPerson createNaturalPerson() {
-        return new NaturalPerson();
+    public Person createPerson() {
+        return new Person();
     }
 
 }

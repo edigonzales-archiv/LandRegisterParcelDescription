@@ -58,7 +58,7 @@ public class GetPdfExtractByIdServiceImpl implements GetPdfExtractByIdService {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    GetExtractByIdResponseTypeServiceImpl getExtractByIdResponseTypeService;
+    GetExtractByIdResponseServiceImpl getExtractByIdResponseTypeService;
 
     @Override
     public File getExtract(String egrid) throws IOException, DatatypeConfigurationException, JAXBException, SaxonApiException, SAXException, TransformerException, ImageServiceException {

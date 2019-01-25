@@ -43,9 +43,9 @@ import javax.xml.namespace.QName;
  *                   &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}RangNachfolge" maxOccurs="unbounded" minOccurs="0"/&gt;
  *                   &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}Vorrang" maxOccurs="unbounded" minOccurs="0"/&gt;
  *                 &lt;/sequence&gt;
- *                 &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
- *                 &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
  *                 &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
+ *                 &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
+ *                 &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
  *                 &lt;anyAttribute processContents='lax'/&gt;
  *               &lt;/restriction&gt;
  *             &lt;/complexContent&gt;
@@ -59,9 +59,9 @@ import javax.xml.namespace.QName;
  *                   &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}GestuetzAuf" maxOccurs="unbounded" minOccurs="0"/&gt;
  *                   &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}GehoertZu" maxOccurs="unbounded" minOccurs="0"/&gt;
  *                 &lt;/sequence&gt;
+ *                 &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
  *                 &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
  *                 &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
- *                 &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
  *                 &lt;anyAttribute processContents='lax'/&gt;
  *               &lt;/restriction&gt;
  *             &lt;/complexContent&gt;
@@ -142,13 +142,13 @@ public class RechtType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link InhaltVormerkungType }{@code >}
-     * {@link JAXBElement }{@code <}{@link InhaltAnmerkungType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltEigentumAnteilType }{@code >}
-     * {@link JAXBElement }{@code <}{@link InhaltGrundlastType }{@code >}
+     * {@link JAXBElement }{@code <}{@link InhaltVormerkungType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltRechtType }{@code >}
-     * {@link JAXBElement }{@code <}{@link InhaltDienstbarkeitType }{@code >}
      * {@link JAXBElement }{@code <}{@link InhaltGrundpfandrechtType }{@code >}
+     * {@link JAXBElement }{@code <}{@link InhaltGrundlastType }{@code >}
+     * {@link JAXBElement }{@code <}{@link InhaltDienstbarkeitType }{@code >}
+     * {@link JAXBElement }{@code <}{@link InhaltAnmerkungType }{@code >}
      * 
      * 
      */
@@ -369,9 +369,9 @@ public class RechtType {
      *         &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}GestuetzAuf" maxOccurs="unbounded" minOccurs="0"/&gt;
      *         &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}GehoertZu" maxOccurs="unbounded" minOccurs="0"/&gt;
      *       &lt;/sequence&gt;
+     *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
      *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
      *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
-     *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
      *       &lt;anyAttribute processContents='lax'/&gt;
      *     &lt;/restriction&gt;
      *   &lt;/complexContent&gt;
@@ -391,6 +391,11 @@ public class RechtType {
         protected List<GestuetzAuf> gestuetzAuves;
         @XmlElement(name = "GehoertZu")
         protected List<GehoertZu> gehoertZus;
+        @XmlAttribute(name = "operation")
+        protected Operation operation;
+        @XmlAttribute(name = "operationOrder")
+        @XmlSchemaType(name = "positiveInteger")
+        protected BigInteger operationOrder;
         @XmlAttribute(name = "bisEGBTBID")
         @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
         protected String bisEGBTBID;
@@ -413,11 +418,6 @@ public class RechtType {
         @XmlAttribute(name = "vonIdx")
         @XmlSchemaType(name = "positiveInteger")
         protected BigInteger vonIdx;
-        @XmlAttribute(name = "operation")
-        protected Operation operation;
-        @XmlAttribute(name = "operationOrder")
-        @XmlSchemaType(name = "positiveInteger")
-        protected BigInteger operationOrder;
         @XmlAnyAttribute
         private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 
@@ -480,6 +480,54 @@ public class RechtType {
         }
 
         /**
+         * Gets the value of the operation property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link Operation }
+         *     
+         */
+        public Operation getOperation() {
+            return operation;
+        }
+
+        /**
+         * Sets the value of the operation property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link Operation }
+         *     
+         */
+        public void setOperation(Operation value) {
+            this.operation = value;
+        }
+
+        /**
+         * Gets the value of the operationOrder property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link BigInteger }
+         *     
+         */
+        public BigInteger getOperationOrder() {
+            return operationOrder;
+        }
+
+        /**
+         * Sets the value of the operationOrder property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link BigInteger }
+         *     
+         */
+        public void setOperationOrder(BigInteger value) {
+            this.operationOrder = value;
+        }
+
+        /**
          * Gets the value of the bisEGBTBID property.
          * 
          * @return
@@ -672,54 +720,6 @@ public class RechtType {
         }
 
         /**
-         * Gets the value of the operation property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link Operation }
-         *     
-         */
-        public Operation getOperation() {
-            return operation;
-        }
-
-        /**
-         * Sets the value of the operation property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link Operation }
-         *     
-         */
-        public void setOperation(Operation value) {
-            this.operation = value;
-        }
-
-        /**
-         * Gets the value of the operationOrder property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link BigInteger }
-         *     
-         */
-        public BigInteger getOperationOrder() {
-            return operationOrder;
-        }
-
-        /**
-         * Sets the value of the operationOrder property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link BigInteger }
-         *     
-         */
-        public void setOperationOrder(BigInteger value) {
-            this.operationOrder = value;
-        }
-
-        /**
          * Gets a map that contains attributes that aren't bound to any typed property on this class.
          * 
          * <p>
@@ -753,9 +753,9 @@ public class RechtType {
      *         &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}RangNachfolge" maxOccurs="unbounded" minOccurs="0"/&gt;
      *         &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}Vorrang" maxOccurs="unbounded" minOccurs="0"/&gt;
      *       &lt;/sequence&gt;
-     *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
-     *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
      *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
+     *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
+     *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
      *       &lt;anyAttribute processContents='lax'/&gt;
      *     &lt;/restriction&gt;
      *   &lt;/complexContent&gt;
@@ -775,22 +775,6 @@ public class RechtType {
         protected List<RangNachfolge> rangNachfolges;
         @XmlElement(name = "Vorrang")
         protected List<Vorrang> vorrangs;
-        @XmlAttribute(name = "operation")
-        protected Operation operation;
-        @XmlAttribute(name = "operationOrder")
-        @XmlSchemaType(name = "positiveInteger")
-        protected BigInteger operationOrder;
-        @XmlAttribute(name = "bisEGBTBID")
-        @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-        protected String bisEGBTBID;
-        @XmlAttribute(name = "bisTagebuchNummer")
-        @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-        protected String bisTagebuchNummer;
-        @XmlAttribute(name = "bisTagebuchDatumZeit")
-        protected XMLGregorianCalendar bisTagebuchDatumZeit;
-        @XmlAttribute(name = "bisIdx")
-        @XmlSchemaType(name = "positiveInteger")
-        protected BigInteger bisIdx;
         @XmlAttribute(name = "vonEGBTBID")
         @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
         protected String vonEGBTBID;
@@ -802,6 +786,22 @@ public class RechtType {
         @XmlAttribute(name = "vonIdx")
         @XmlSchemaType(name = "positiveInteger")
         protected BigInteger vonIdx;
+        @XmlAttribute(name = "bisEGBTBID")
+        @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+        protected String bisEGBTBID;
+        @XmlAttribute(name = "bisTagebuchNummer")
+        @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+        protected String bisTagebuchNummer;
+        @XmlAttribute(name = "bisTagebuchDatumZeit")
+        protected XMLGregorianCalendar bisTagebuchDatumZeit;
+        @XmlAttribute(name = "bisIdx")
+        @XmlSchemaType(name = "positiveInteger")
+        protected BigInteger bisIdx;
+        @XmlAttribute(name = "operation")
+        protected Operation operation;
+        @XmlAttribute(name = "operationOrder")
+        @XmlSchemaType(name = "positiveInteger")
+        protected BigInteger operationOrder;
         @XmlAnyAttribute
         private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 
@@ -864,51 +864,99 @@ public class RechtType {
         }
 
         /**
-         * Gets the value of the operation property.
+         * Gets the value of the vonEGBTBID property.
          * 
          * @return
          *     possible object is
-         *     {@link Operation }
+         *     {@link String }
          *     
          */
-        public Operation getOperation() {
-            return operation;
+        public String getVonEGBTBID() {
+            return vonEGBTBID;
         }
 
         /**
-         * Sets the value of the operation property.
+         * Sets the value of the vonEGBTBID property.
          * 
          * @param value
          *     allowed object is
-         *     {@link Operation }
+         *     {@link String }
          *     
          */
-        public void setOperation(Operation value) {
-            this.operation = value;
+        public void setVonEGBTBID(String value) {
+            this.vonEGBTBID = value;
         }
 
         /**
-         * Gets the value of the operationOrder property.
+         * Gets the value of the vonTagebuchNummer property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getVonTagebuchNummer() {
+            return vonTagebuchNummer;
+        }
+
+        /**
+         * Sets the value of the vonTagebuchNummer property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setVonTagebuchNummer(String value) {
+            this.vonTagebuchNummer = value;
+        }
+
+        /**
+         * Gets the value of the vonTagebuchDatumZeit property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link XMLGregorianCalendar }
+         *     
+         */
+        public XMLGregorianCalendar getVonTagebuchDatumZeit() {
+            return vonTagebuchDatumZeit;
+        }
+
+        /**
+         * Sets the value of the vonTagebuchDatumZeit property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link XMLGregorianCalendar }
+         *     
+         */
+        public void setVonTagebuchDatumZeit(XMLGregorianCalendar value) {
+            this.vonTagebuchDatumZeit = value;
+        }
+
+        /**
+         * Gets the value of the vonIdx property.
          * 
          * @return
          *     possible object is
          *     {@link BigInteger }
          *     
          */
-        public BigInteger getOperationOrder() {
-            return operationOrder;
+        public BigInteger getVonIdx() {
+            return vonIdx;
         }
 
         /**
-         * Sets the value of the operationOrder property.
+         * Sets the value of the vonIdx property.
          * 
          * @param value
          *     allowed object is
          *     {@link BigInteger }
          *     
          */
-        public void setOperationOrder(BigInteger value) {
-            this.operationOrder = value;
+        public void setVonIdx(BigInteger value) {
+            this.vonIdx = value;
         }
 
         /**
@@ -1008,99 +1056,51 @@ public class RechtType {
         }
 
         /**
-         * Gets the value of the vonEGBTBID property.
+         * Gets the value of the operation property.
          * 
          * @return
          *     possible object is
-         *     {@link String }
+         *     {@link Operation }
          *     
          */
-        public String getVonEGBTBID() {
-            return vonEGBTBID;
+        public Operation getOperation() {
+            return operation;
         }
 
         /**
-         * Sets the value of the vonEGBTBID property.
+         * Sets the value of the operation property.
          * 
          * @param value
          *     allowed object is
-         *     {@link String }
+         *     {@link Operation }
          *     
          */
-        public void setVonEGBTBID(String value) {
-            this.vonEGBTBID = value;
+        public void setOperation(Operation value) {
+            this.operation = value;
         }
 
         /**
-         * Gets the value of the vonTagebuchNummer property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
-         */
-        public String getVonTagebuchNummer() {
-            return vonTagebuchNummer;
-        }
-
-        /**
-         * Sets the value of the vonTagebuchNummer property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
-         */
-        public void setVonTagebuchNummer(String value) {
-            this.vonTagebuchNummer = value;
-        }
-
-        /**
-         * Gets the value of the vonTagebuchDatumZeit property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link XMLGregorianCalendar }
-         *     
-         */
-        public XMLGregorianCalendar getVonTagebuchDatumZeit() {
-            return vonTagebuchDatumZeit;
-        }
-
-        /**
-         * Sets the value of the vonTagebuchDatumZeit property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link XMLGregorianCalendar }
-         *     
-         */
-        public void setVonTagebuchDatumZeit(XMLGregorianCalendar value) {
-            this.vonTagebuchDatumZeit = value;
-        }
-
-        /**
-         * Gets the value of the vonIdx property.
+         * Gets the value of the operationOrder property.
          * 
          * @return
          *     possible object is
          *     {@link BigInteger }
          *     
          */
-        public BigInteger getVonIdx() {
-            return vonIdx;
+        public BigInteger getOperationOrder() {
+            return operationOrder;
         }
 
         /**
-         * Sets the value of the vonIdx property.
+         * Sets the value of the operationOrder property.
          * 
          * @param value
          *     allowed object is
          *     {@link BigInteger }
          *     
          */
-        public void setVonIdx(BigInteger value) {
-            this.vonIdx = value;
+        public void setOperationOrder(BigInteger value) {
+            this.operationOrder = value;
         }
 
         /**

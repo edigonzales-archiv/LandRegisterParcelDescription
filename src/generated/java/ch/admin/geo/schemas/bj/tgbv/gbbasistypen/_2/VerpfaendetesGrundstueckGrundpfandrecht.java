@@ -36,9 +36,9 @@ import javax.xml.namespace.QName;
  *         &lt;element name="VerpfaendetesGrundstueck" type="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisId/2.1}GrundstueckNummer"/&gt;
  *         &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}extensions" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
- *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
  *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
  *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
+ *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
  *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}ID" /&gt;
  *       &lt;anyAttribute processContents='lax'/&gt;
  *     &lt;/restriction&gt;
@@ -69,17 +69,6 @@ public class VerpfaendetesGrundstueckGrundpfandrecht {
     @XmlID
     @XmlSchemaType(name = "ID")
     protected String id;
-    @XmlAttribute(name = "bisEGBTBID")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String bisEGBTBID;
-    @XmlAttribute(name = "bisTagebuchNummer")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String bisTagebuchNummer;
-    @XmlAttribute(name = "bisTagebuchDatumZeit")
-    protected XMLGregorianCalendar bisTagebuchDatumZeit;
-    @XmlAttribute(name = "bisIdx")
-    @XmlSchemaType(name = "positiveInteger")
-    protected BigInteger bisIdx;
     @XmlAttribute(name = "vonEGBTBID")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     protected String vonEGBTBID;
@@ -96,6 +85,17 @@ public class VerpfaendetesGrundstueckGrundpfandrecht {
     @XmlAttribute(name = "operationOrder")
     @XmlSchemaType(name = "positiveInteger")
     protected BigInteger operationOrder;
+    @XmlAttribute(name = "bisEGBTBID")
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    protected String bisEGBTBID;
+    @XmlAttribute(name = "bisTagebuchNummer")
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    protected String bisTagebuchNummer;
+    @XmlAttribute(name = "bisTagebuchDatumZeit")
+    protected XMLGregorianCalendar bisTagebuchDatumZeit;
+    @XmlAttribute(name = "bisIdx")
+    @XmlSchemaType(name = "positiveInteger")
+    protected BigInteger bisIdx;
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 
@@ -198,102 +198,6 @@ public class VerpfaendetesGrundstueckGrundpfandrecht {
      */
     public void setId(String value) {
         this.id = value;
-    }
-
-    /**
-     * Gets the value of the bisEGBTBID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getBisEGBTBID() {
-        return bisEGBTBID;
-    }
-
-    /**
-     * Sets the value of the bisEGBTBID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setBisEGBTBID(String value) {
-        this.bisEGBTBID = value;
-    }
-
-    /**
-     * Gets the value of the bisTagebuchNummer property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getBisTagebuchNummer() {
-        return bisTagebuchNummer;
-    }
-
-    /**
-     * Sets the value of the bisTagebuchNummer property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setBisTagebuchNummer(String value) {
-        this.bisTagebuchNummer = value;
-    }
-
-    /**
-     * Gets the value of the bisTagebuchDatumZeit property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getBisTagebuchDatumZeit() {
-        return bisTagebuchDatumZeit;
-    }
-
-    /**
-     * Sets the value of the bisTagebuchDatumZeit property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setBisTagebuchDatumZeit(XMLGregorianCalendar value) {
-        this.bisTagebuchDatumZeit = value;
-    }
-
-    /**
-     * Gets the value of the bisIdx property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getBisIdx() {
-        return bisIdx;
-    }
-
-    /**
-     * Sets the value of the bisIdx property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setBisIdx(BigInteger value) {
-        this.bisIdx = value;
     }
 
     /**
@@ -438,6 +342,102 @@ public class VerpfaendetesGrundstueckGrundpfandrecht {
      */
     public void setOperationOrder(BigInteger value) {
         this.operationOrder = value;
+    }
+
+    /**
+     * Gets the value of the bisEGBTBID property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getBisEGBTBID() {
+        return bisEGBTBID;
+    }
+
+    /**
+     * Sets the value of the bisEGBTBID property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBisEGBTBID(String value) {
+        this.bisEGBTBID = value;
+    }
+
+    /**
+     * Gets the value of the bisTagebuchNummer property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getBisTagebuchNummer() {
+        return bisTagebuchNummer;
+    }
+
+    /**
+     * Sets the value of the bisTagebuchNummer property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBisTagebuchNummer(String value) {
+        this.bisTagebuchNummer = value;
+    }
+
+    /**
+     * Gets the value of the bisTagebuchDatumZeit property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public XMLGregorianCalendar getBisTagebuchDatumZeit() {
+        return bisTagebuchDatumZeit;
+    }
+
+    /**
+     * Sets the value of the bisTagebuchDatumZeit property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public void setBisTagebuchDatumZeit(XMLGregorianCalendar value) {
+        this.bisTagebuchDatumZeit = value;
+    }
+
+    /**
+     * Gets the value of the bisIdx property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link BigInteger }
+     *     
+     */
+    public BigInteger getBisIdx() {
+        return bisIdx;
+    }
+
+    /**
+     * Sets the value of the bisIdx property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link BigInteger }
+     *     
+     */
+    public void setBisIdx(BigInteger value) {
+        this.bisIdx = value;
     }
 
     /**

@@ -13,6 +13,9 @@ CH310663327779 (viele Flurnamen)
 CH493273420604 (grösstes Grundstück)
 
 http://localhost:8887/parcel/fubar/xml/CH240632707339
+http://localhost:8887/parcel/extract/xml/CH240632707339
+http://localhost:8887/parcel/fubar/xml/CH310663327779
+http://localhost:8887/parcel/extract/xml/CH310663327779
 ```
 
 
@@ -51,3 +54,10 @@ URL="http://srsofaioi18626.verw.rootso.org:41007/gbdbs/gbdbs"
 curl -H "Content-Type: text/xml; charset=utf-8" -H "SOAPAction:$ACTION" -d@request.xml $URL > output.xml
 ```
 
+## xml2pdf 
+```
+java -jar /Users/stefan/apps/saxonHE990/saxon9he.jar -s:CH310663327779.xml -xsl:parceldescription_xml2pdf.xslt -o:CH310663327779.fo
+../../../apps/fop-2.3/fop/fop -fo CH310663327779.fo -pdf CH310663327779.pdf -c fop.xconf
+
+../../../apps/fop-2.3/fop/fop -fo test.fo -pdf test.pdf  
+```

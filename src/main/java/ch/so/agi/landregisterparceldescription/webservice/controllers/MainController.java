@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ch.so.agi.landregisterparceldescription.webservice.services.GetExtractByIdResponseTypeServiceImpl;
+import ch.so.agi.landregisterparceldescription.webservice.services.GetExtractByIdResponseServiceImpl;
 import ch.so.agi.landregisterparceldescription.webservice.services.GetParcelsByIdServiceImpl;
 import ch.so.agi.landregisterparceldescription.webservice.services.GetPdfExtractByIdServiceImpl;
 import ch.so.agi.landregisterparceldescription.webservice.services.ImageServiceException;
@@ -37,7 +37,7 @@ public class MainController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    GetExtractByIdResponseTypeServiceImpl getExtractByIdResponseTypeService;
+    GetExtractByIdResponseServiceImpl getExtractByIdResponseTypeService;
     
     @Autowired
     GetPdfExtractByIdServiceImpl getPdfExtractByIdService;

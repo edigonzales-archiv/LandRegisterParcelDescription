@@ -21,7 +21,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *       &lt;sequence&gt;
  *         &lt;element name="CantonalLogo" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
  *         &lt;element name="ResponsibleOffice" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}Office"/&gt;
- *         &lt;element name="RealEstate" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}RealEstate_DPR"/&gt;
+ *         &lt;element name="RealEstate" type="{http://geo.so.ch/schema/AGI/LandRegisterParcelDescription/1.0/Extract}RealEstate_DPR" minOccurs="0"/&gt;
  *         &lt;element name="CreationDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -44,7 +44,7 @@ public class Extract {
     protected byte[] cantonalLogo;
     @XmlElement(name = "ResponsibleOffice", required = true)
     protected Office responsibleOffice;
-    @XmlElement(name = "RealEstate", required = true)
+    @XmlElement(name = "RealEstate")
     protected RealEstateDPR realEstate;
     @XmlElement(name = "CreationDate", required = true)
     @XmlSchemaType(name = "dateTime")

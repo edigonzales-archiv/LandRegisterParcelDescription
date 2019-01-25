@@ -40,8 +40,8 @@ import javax.xml.namespace.QName;
  *         &lt;/element&gt;
  *         &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}extensions" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
- *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
  *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
+ *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
  *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
  *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}ID" /&gt;
  *       &lt;anyAttribute processContents='lax'/&gt;
@@ -74,11 +74,6 @@ public class InhaltGrundstueckType {
     @XmlID
     @XmlSchemaType(name = "ID")
     protected String id;
-    @XmlAttribute(name = "operation")
-    protected Operation operation;
-    @XmlAttribute(name = "operationOrder")
-    @XmlSchemaType(name = "positiveInteger")
-    protected BigInteger operationOrder;
     @XmlAttribute(name = "vonEGBTBID")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     protected String vonEGBTBID;
@@ -90,6 +85,11 @@ public class InhaltGrundstueckType {
     @XmlAttribute(name = "vonIdx")
     @XmlSchemaType(name = "positiveInteger")
     protected BigInteger vonIdx;
+    @XmlAttribute(name = "operation")
+    protected Operation operation;
+    @XmlAttribute(name = "operationOrder")
+    @XmlSchemaType(name = "positiveInteger")
+    protected BigInteger operationOrder;
     @XmlAttribute(name = "bisEGBTBID")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     protected String bisEGBTBID;
@@ -174,54 +174,6 @@ public class InhaltGrundstueckType {
      */
     public void setId(String value) {
         this.id = value;
-    }
-
-    /**
-     * Gets the value of the operation property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Operation }
-     *     
-     */
-    public Operation getOperation() {
-        return operation;
-    }
-
-    /**
-     * Sets the value of the operation property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Operation }
-     *     
-     */
-    public void setOperation(Operation value) {
-        this.operation = value;
-    }
-
-    /**
-     * Gets the value of the operationOrder property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getOperationOrder() {
-        return operationOrder;
-    }
-
-    /**
-     * Sets the value of the operationOrder property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setOperationOrder(BigInteger value) {
-        this.operationOrder = value;
     }
 
     /**
@@ -318,6 +270,54 @@ public class InhaltGrundstueckType {
      */
     public void setVonIdx(BigInteger value) {
         this.vonIdx = value;
+    }
+
+    /**
+     * Gets the value of the operation property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Operation }
+     *     
+     */
+    public Operation getOperation() {
+        return operation;
+    }
+
+    /**
+     * Sets the value of the operation property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Operation }
+     *     
+     */
+    public void setOperation(Operation value) {
+        this.operation = value;
+    }
+
+    /**
+     * Gets the value of the operationOrder property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link BigInteger }
+     *     
+     */
+    public BigInteger getOperationOrder() {
+        return operationOrder;
+    }
+
+    /**
+     * Sets the value of the operationOrder property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link BigInteger }
+     *     
+     */
+    public void setOperationOrder(BigInteger value) {
+        this.operationOrder = value;
     }
 
     /**

@@ -42,8 +42,8 @@ import javax.xml.namespace.QName;
  *         &lt;element name="Person" type="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisId/2.1}PersonId"/&gt;
  *         &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}extensions" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
- *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
  *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
+ *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
  *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
  *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}ID" /&gt;
  *       &lt;anyAttribute processContents='lax'/&gt;
@@ -76,17 +76,6 @@ public class Schuldner {
     @XmlID
     @XmlSchemaType(name = "ID")
     protected String id;
-    @XmlAttribute(name = "vonEGBTBID")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String vonEGBTBID;
-    @XmlAttribute(name = "vonTagebuchNummer")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String vonTagebuchNummer;
-    @XmlAttribute(name = "vonTagebuchDatumZeit")
-    protected XMLGregorianCalendar vonTagebuchDatumZeit;
-    @XmlAttribute(name = "vonIdx")
-    @XmlSchemaType(name = "positiveInteger")
-    protected BigInteger vonIdx;
     @XmlAttribute(name = "bisEGBTBID")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     protected String bisEGBTBID;
@@ -98,6 +87,17 @@ public class Schuldner {
     @XmlAttribute(name = "bisIdx")
     @XmlSchemaType(name = "positiveInteger")
     protected BigInteger bisIdx;
+    @XmlAttribute(name = "vonEGBTBID")
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    protected String vonEGBTBID;
+    @XmlAttribute(name = "vonTagebuchNummer")
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    protected String vonTagebuchNummer;
+    @XmlAttribute(name = "vonTagebuchDatumZeit")
+    protected XMLGregorianCalendar vonTagebuchDatumZeit;
+    @XmlAttribute(name = "vonIdx")
+    @XmlSchemaType(name = "positiveInteger")
+    protected BigInteger vonIdx;
     @XmlAttribute(name = "operation")
     protected Operation operation;
     @XmlAttribute(name = "operationOrder")
@@ -203,102 +203,6 @@ public class Schuldner {
     }
 
     /**
-     * Gets the value of the vonEGBTBID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getVonEGBTBID() {
-        return vonEGBTBID;
-    }
-
-    /**
-     * Sets the value of the vonEGBTBID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setVonEGBTBID(String value) {
-        this.vonEGBTBID = value;
-    }
-
-    /**
-     * Gets the value of the vonTagebuchNummer property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getVonTagebuchNummer() {
-        return vonTagebuchNummer;
-    }
-
-    /**
-     * Sets the value of the vonTagebuchNummer property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setVonTagebuchNummer(String value) {
-        this.vonTagebuchNummer = value;
-    }
-
-    /**
-     * Gets the value of the vonTagebuchDatumZeit property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getVonTagebuchDatumZeit() {
-        return vonTagebuchDatumZeit;
-    }
-
-    /**
-     * Sets the value of the vonTagebuchDatumZeit property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setVonTagebuchDatumZeit(XMLGregorianCalendar value) {
-        this.vonTagebuchDatumZeit = value;
-    }
-
-    /**
-     * Gets the value of the vonIdx property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getVonIdx() {
-        return vonIdx;
-    }
-
-    /**
-     * Sets the value of the vonIdx property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setVonIdx(BigInteger value) {
-        this.vonIdx = value;
-    }
-
-    /**
      * Gets the value of the bisEGBTBID property.
      * 
      * @return
@@ -392,6 +296,102 @@ public class Schuldner {
      */
     public void setBisIdx(BigInteger value) {
         this.bisIdx = value;
+    }
+
+    /**
+     * Gets the value of the vonEGBTBID property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getVonEGBTBID() {
+        return vonEGBTBID;
+    }
+
+    /**
+     * Sets the value of the vonEGBTBID property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setVonEGBTBID(String value) {
+        this.vonEGBTBID = value;
+    }
+
+    /**
+     * Gets the value of the vonTagebuchNummer property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getVonTagebuchNummer() {
+        return vonTagebuchNummer;
+    }
+
+    /**
+     * Sets the value of the vonTagebuchNummer property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setVonTagebuchNummer(String value) {
+        this.vonTagebuchNummer = value;
+    }
+
+    /**
+     * Gets the value of the vonTagebuchDatumZeit property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public XMLGregorianCalendar getVonTagebuchDatumZeit() {
+        return vonTagebuchDatumZeit;
+    }
+
+    /**
+     * Sets the value of the vonTagebuchDatumZeit property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public void setVonTagebuchDatumZeit(XMLGregorianCalendar value) {
+        this.vonTagebuchDatumZeit = value;
+    }
+
+    /**
+     * Gets the value of the vonIdx property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link BigInteger }
+     *     
+     */
+    public BigInteger getVonIdx() {
+        return vonIdx;
+    }
+
+    /**
+     * Sets the value of the vonIdx property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link BigInteger }
+     *     
+     */
+    public void setVonIdx(BigInteger value) {
+        this.vonIdx = value;
     }
 
     /**

@@ -51,9 +51,9 @@ public class Mutationsinhalt {
 
     @XmlElementRefs({
         @XmlElementRef(name = "Grundstueck", namespace = "http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "PersonGB", namespace = "http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "Recht", namespace = "http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "extensions", namespace = "http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1", type = Extensions.class, required = false),
-        @XmlElementRef(name = "Recht", namespace = "http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1", type = JAXBElement.class, required = false)
+        @XmlElementRef(name = "PersonGB", namespace = "http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1", type = JAXBElement.class, required = false)
     })
     protected List<Object> grundstuecksAndPersonGBsAndRechts;
     @XmlAttribute(name = "id")
@@ -80,27 +80,27 @@ public class Mutationsinhalt {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link GrundstueckType }{@code >}
-     * {@link JAXBElement }{@code <}{@link BergwerkType }{@code >}
-     * {@link JAXBElement }{@code <}{@link LiegenschaftType }{@code >}
      * {@link JAXBElement }{@code <}{@link KonzessionType }{@code >}
-     * {@link Extensions }
-     * {@link JAXBElement }{@code <}{@link RechtType }{@code >}
-     * {@link JAXBElement }{@code <}{@link GewoehnlichesMiteigentumType }{@code >}
-     * {@link JAXBElement }{@code <}{@link NatuerlichePersonGBType }{@code >}
      * {@link JAXBElement }{@code <}{@link GemeinschaftType }{@code >}
-     * {@link JAXBElement }{@code <}{@link VormerkungType }{@code >}
-     * {@link JAXBElement }{@code <}{@link GrundpfandrechtType }{@code >}
-     * {@link JAXBElement }{@code <}{@link SelbstaendigesDauerndesRechtType }{@code >}
-     * {@link JAXBElement }{@code <}{@link JuristischePersonGBType }{@code >}
-     * {@link JAXBElement }{@code <}{@link DienstbarkeitType }{@code >}
-     * {@link JAXBElement }{@code <}{@link PersonGBType }{@code >}
-     * {@link JAXBElement }{@code <}{@link GrundlastType }{@code >}
+     * {@link JAXBElement }{@code <}{@link GrundstueckType }{@code >}
      * {@link JAXBElement }{@code <}{@link GewoehnlichesSDRType }{@code >}
-     * {@link JAXBElement }{@code <}{@link StockwerksEinheitType }{@code >}
-     * {@link JAXBElement }{@code <}{@link AnmerkungType }{@code >}
+     * {@link JAXBElement }{@code <}{@link RechtType }{@code >}
      * {@link JAXBElement }{@code <}{@link EigentumAnteilType }{@code >}
+     * {@link JAXBElement }{@code <}{@link GrundlastType }{@code >}
+     * {@link Extensions }
+     * {@link JAXBElement }{@code <}{@link PersonGBType }{@code >}
+     * {@link JAXBElement }{@code <}{@link VormerkungType }{@code >}
+     * {@link JAXBElement }{@code <}{@link AnmerkungType }{@code >}
+     * {@link JAXBElement }{@code <}{@link BergwerkType }{@code >}
+     * {@link JAXBElement }{@code <}{@link JuristischePersonGBType }{@code >}
      * {@link JAXBElement }{@code <}{@link MiteigentumsAnteilType }{@code >}
+     * {@link JAXBElement }{@code <}{@link GrundpfandrechtType }{@code >}
+     * {@link JAXBElement }{@code <}{@link LiegenschaftType }{@code >}
+     * {@link JAXBElement }{@code <}{@link StockwerksEinheitType }{@code >}
+     * {@link JAXBElement }{@code <}{@link NatuerlichePersonGBType }{@code >}
+     * {@link JAXBElement }{@code <}{@link SelbstaendigesDauerndesRechtType }{@code >}
+     * {@link JAXBElement }{@code <}{@link DienstbarkeitType }{@code >}
+     * {@link JAXBElement }{@code <}{@link GewoehnlichesMiteigentumType }{@code >}
      * 
      * 
      */

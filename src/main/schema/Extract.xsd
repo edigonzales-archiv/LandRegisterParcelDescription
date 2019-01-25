@@ -35,11 +35,7 @@
     		<xsd:element name="UID" type="xsd:normalizedString"
     			minOccurs="0">
     		</xsd:element>
-    		<xsd:element name="PostalAddress" minOccurs="1" maxOccurs="1">
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    				</xsd:restriction>
-    			</xsd:simpleType>
+    		<xsd:element name="PostalAddress" minOccurs="1" maxOccurs="1" type="extract:Address">
     		</xsd:element>
     	</xsd:sequence>
     </xsd:complexType>

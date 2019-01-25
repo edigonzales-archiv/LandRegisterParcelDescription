@@ -30,8 +30,8 @@ import javax.xml.namespace.QName;
  *         &lt;element name="ref" type="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisId/2.1}RechtId"/&gt;
  *         &lt;element ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}extensions" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
- *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
  *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigBis"/&gt;
+ *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}OperationAttrs"/&gt;
  *       &lt;attGroup ref="{http://schemas.geo.admin.ch/BJ/TGBV/GBBasisTypen/2.1}gueltigVon"/&gt;
  *       &lt;anyAttribute processContents='lax'/&gt;
  *     &lt;/restriction&gt;
@@ -53,11 +53,6 @@ public class RechtRefBegruendet {
     @XmlSchemaType(name = "normalizedString")
     protected String ref;
     protected Extensions extensions;
-    @XmlAttribute(name = "operation")
-    protected Operation operation;
-    @XmlAttribute(name = "operationOrder")
-    @XmlSchemaType(name = "positiveInteger")
-    protected BigInteger operationOrder;
     @XmlAttribute(name = "bisEGBTBID")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     protected String bisEGBTBID;
@@ -69,6 +64,11 @@ public class RechtRefBegruendet {
     @XmlAttribute(name = "bisIdx")
     @XmlSchemaType(name = "positiveInteger")
     protected BigInteger bisIdx;
+    @XmlAttribute(name = "operation")
+    protected Operation operation;
+    @XmlAttribute(name = "operationOrder")
+    @XmlSchemaType(name = "positiveInteger")
+    protected BigInteger operationOrder;
     @XmlAttribute(name = "vonEGBTBID")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     protected String vonEGBTBID;
@@ -129,54 +129,6 @@ public class RechtRefBegruendet {
      */
     public void setExtensions(Extensions value) {
         this.extensions = value;
-    }
-
-    /**
-     * Gets the value of the operation property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Operation }
-     *     
-     */
-    public Operation getOperation() {
-        return operation;
-    }
-
-    /**
-     * Sets the value of the operation property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Operation }
-     *     
-     */
-    public void setOperation(Operation value) {
-        this.operation = value;
-    }
-
-    /**
-     * Gets the value of the operationOrder property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getOperationOrder() {
-        return operationOrder;
-    }
-
-    /**
-     * Sets the value of the operationOrder property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setOperationOrder(BigInteger value) {
-        this.operationOrder = value;
     }
 
     /**
@@ -273,6 +225,54 @@ public class RechtRefBegruendet {
      */
     public void setBisIdx(BigInteger value) {
         this.bisIdx = value;
+    }
+
+    /**
+     * Gets the value of the operation property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Operation }
+     *     
+     */
+    public Operation getOperation() {
+        return operation;
+    }
+
+    /**
+     * Sets the value of the operation property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Operation }
+     *     
+     */
+    public void setOperation(Operation value) {
+        this.operation = value;
+    }
+
+    /**
+     * Gets the value of the operationOrder property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link BigInteger }
+     *     
+     */
+    public BigInteger getOperationOrder() {
+        return operationOrder;
+    }
+
+    /**
+     * Sets the value of the operationOrder property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link BigInteger }
+     *     
+     */
+    public void setOperationOrder(BigInteger value) {
+        this.operationOrder = value;
     }
 
     /**

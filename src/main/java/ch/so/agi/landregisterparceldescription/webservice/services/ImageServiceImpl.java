@@ -73,15 +73,15 @@ public class ImageServiceImpl implements ImageService {
 
     @Value("${parcel.description.map.map-width-mm}")
     private double mapWidthMM;
-    
+
     @Value("${parcel.description.map.map-height-mm}")
     private double mapHeightMM;
-    
+
     @Value("${parcel.description.map.dpi}")
     private int dpi;
-    
+
     final private double mapScaleFactor = 1.05;
-    
+
     final private String imageFormat = "png";
 
     @Override
@@ -92,7 +92,7 @@ public class ImageServiceImpl implements ImageService {
             polygon = wkbReader.read(parcel.getGeometry());
         } catch (ParseException e) {
             e.printStackTrace();
-            throw new ImageServiceException(e.getMessage()); 
+            throw new ImageServiceException(e.getMessage());
         }
 
         Envelope mapEnvelope = calculateBoundingBox(polygon);
@@ -100,10 +100,9 @@ public class ImageServiceImpl implements ImageService {
 
         String getMapRequest = createGetMapRequest(url, layerName, mapEnvelope);
         log.info(getMapRequest);
-        
-        CloseableHttpClient httpclient = HttpClients.custom()
-                .setRedirectStrategy(new LaxRedirectStrategy()) // adds HTTP REDIRECT support to GET and POST methods 
-                .build(); 
+
+        // LaxRedirectStrategy() adds HTTP REDIRECT support to GET and POST methods
+        CloseableHttpClient httpclient = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
         byte[] mapImageInByte = null;
         try {
@@ -115,13 +114,10 @@ public class ImageServiceImpl implements ImageService {
             InputStream inputStream = response.getEntity().getContent();
             BufferedImage image = ImageIO.read(inputStream);
 
-//            Path tmpDirectory = Files.createTempDirectory(Paths.get(System.getProperty("java.io.tmpdir")), "parceldescription_extract_");
-//            Path outputfilePath = Paths.get(tmpDirectory.toString(), "image.png");
-//            ImageIO.write(image, imageFormat, outputfilePath.toFile());
-//            log.info(outputfilePath.toString());
+//            ImageIO.write(image, imageFormat, new File("/Users/stefan/tmp/grundbuchplan.png"));
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(image, imageFormat, baos); 
+            ImageIO.write(image, imageFormat, baos);
             baos.flush();
             mapImageInByte = baos.toByteArray();
             baos.close();
@@ -142,16 +138,16 @@ public class ImageServiceImpl implements ImageService {
                 log.error(e.getMessage());
             }
         }
-        
-        // Combine the two images.
+
+        // Combine the images.
         byte[] combinedImageInByte = null;
         try {
             byte[] overlayImageInByte = createOverlayImage(parcel, mapEnvelope);
             byte[] scalebarImageInByte = createScalebarImage(mapEnvelope);
-            
+
             InputStream insMapImage = new ByteArrayInputStream(mapImageInByte);
             BufferedImage mapBufferedImage = ImageIO.read(insMapImage);
-            
+
             InputStream insOverlayImage = new ByteArrayInputStream(overlayImageInByte);
             BufferedImage overlayBufferedImage = ImageIO.read(insOverlayImage);
 
@@ -160,77 +156,74 @@ public class ImageServiceImpl implements ImageService {
 
             int imageWidthPx = (int) Math.round(mapWidthMM / 25.4 * dpi);
             int imageHeightPx = (int) Math.round(imageWidthPx / (mapWidthMM / mapHeightMM));
-            BufferedImage combinedImage = new BufferedImage(imageWidthPx, imageHeightPx, BufferedImage.TYPE_4BYTE_ABGR_PRE);
-            
+            BufferedImage combinedImage = new BufferedImage(imageWidthPx, imageHeightPx, BufferedImage.TYPE_INT_RGB);
+
             Graphics g = combinedImage.getGraphics();
             g.drawImage(mapBufferedImage, 0, 0, null);
             g.drawImage(overlayBufferedImage, 0, 0, null);
             g.drawImage(scalebarBufferedImage, 0, imageHeightPx - 100, null); // TODO: scalebar height!!
-                       
-            Path tmpDirectory = Files.createTempDirectory(Paths.get(System.getProperty("java.io.tmpdir")), "parceldescription_extract_");
-            Path outputfilePath = Paths.get(tmpDirectory.toString(), parcel.getEgrid()+".png");
-            ImageIO.write(combinedImage, imageFormat, outputfilePath.toFile());            
-            combinedImageInByte = Files.readAllBytes(outputfilePath);
-            
-            log.info(outputfilePath.toString());
-            
-            // This does not work. It will return the overlay only?!
-//            ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-//            ImageIO.write(combinedImage, imageFormat, baos2); 
-//            baos2.flush();
-//            combinedImageInByte = baos2.toByteArray();
-//            baos2.close();
+
+//            Path tmpDirectory = Files.createTempDirectory(Paths.get(System.getProperty("java.io.tmpdir")), "parceldescription_extract_");
+//            Path outputfilePath = Paths.get(tmpDirectory.toString(), parcel.getEgrid()+".png");
+////            ImageIO.write(combinedImage, imageFormat, outputfilePath.toFile());        
+//            ImageIO.write(combinedImage, imageFormat, new File("/Users/stefan/tmp/combined.png"));
+//            combinedImageInByte = Files.readAllBytes(outputfilePath);
+//            log.info(outputfilePath.toString());
+
+            ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+            ImageIO.write(combinedImage, imageFormat, baos2);
+            baos2.flush();
+            combinedImageInByte = baos2.toByteArray();
+            baos2.close();
         } catch (IOException e) {
             e.printStackTrace();
             throw new ImageServiceException(e.getMessage());
         }
         return combinedImageInByte;
     }
-    
+
     private byte[] createScalebarImage(Envelope mapEnvelope) throws ImageServiceException {
         double scale = mapEnvelope.getWidth() / (mapWidthMM / 1000);
 
-        try {            
+        try {
             ScalebarGenerator scalebarGenerator = new ScalebarGenerator();
             scalebarGenerator.setColorText(Color.BLACK);
             scalebarGenerator.setDrawScaleText(false);
             scalebarGenerator.setHeight(75);
             scalebarGenerator.setTopMargin(20);
             scalebarGenerator.setLrbMargin(40);
-            scalebarGenerator.setNumberOfSegments(4);
-            byte[] image = scalebarGenerator.getImageAsByte(new Double(scale), 600, dpi);
+            scalebarGenerator.setNumberOfSegments(3);
+            byte[] image = scalebarGenerator.getImageAsByte(new Double(scale), 400, dpi);
             return image;
         } catch (IOException e) {
             e.printStackTrace();
             throw new ImageServiceException(e.getMessage());
         }
     }
-    
+
     private byte[] createOverlayImage(Parcel parcel, Envelope mapEnvelope) throws ImageServiceException {
         FeatureCollection<SimpleFeatureType, SimpleFeature> collection = new DefaultFeatureCollection();
         SimpleFeatureType TYPE;
         try {
             // Create the feature, feature collection and a feature layer that can
             // be added to a map content.
-            TYPE = DataUtilities.createType(
-                    "Parcel", "the_geom:Polygon:srid=2056," 
-                            + "egrid:String");
+            TYPE = DataUtilities.createType("Parcel", "the_geom:Polygon:srid=2056," + "egrid:String");
             SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(TYPE);
-            
+
             WKBReader wkbReader = new WKBReader();
             Geometry polygon = wkbReader.read(parcel.getGeometry());
             polygon.setSRID(2056);
-            
+
             featureBuilder.add(polygon);
             featureBuilder.add(parcel.getEgrid());
             SimpleFeature feature = featureBuilder.buildFeature(null);
-            ((DefaultFeatureCollection)collection).add(feature); 
-                        
+            ((DefaultFeatureCollection) collection).add(feature);
+
             FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
             StyleFactory sf = new StyleFactoryImpl();
             sf.stroke(ff.literal("#000000"), null, ff.literal(2.0), null, null, null, null);
             Style style = sf.createStyle();
-            
+
             // This is a bitch...
             PolygonSymbolizer polygonSymbolizer = sf.createPolygonSymbolizer();
             Stroke stroke = sf.createStroke(ff.literal("#e60000"), ff.literal(6));
@@ -241,10 +234,10 @@ public class ImageServiceImpl implements ImageService {
             FeatureTypeStyle ft = sf.createFeatureTypeStyle();
             ft.rules().add(rl);
             style.featureTypeStyles().add(ft);
-            
+
             FeatureLayer fl = new FeatureLayer(collection, style);
             fl.setVisible(true);
-           
+
             // Create the map content from which we export the image.
             MapContent map = new MapContent();
             MapViewport vp = new MapViewport();
@@ -253,9 +246,9 @@ public class ImageServiceImpl implements ImageService {
 
             ReferencedEnvelope re = new ReferencedEnvelope(mapEnvelope, crs);
             vp.setBounds(re);
-            map.setViewport(vp);            
+            map.setViewport(vp);
             map.addLayer(fl);
-           
+
             // We need a renderer for exporting the image.
             GTRenderer renderer = new StreamingRenderer();
             renderer.setMapContent(map);
@@ -263,7 +256,8 @@ public class ImageServiceImpl implements ImageService {
             int wmsWidthPx = (int) Math.round(mapWidthMM / 25.4 * dpi);
             int wmsHeightPx = (int) Math.round(wmsWidthPx / (mapWidthMM / mapHeightMM));
             Rectangle imageBounds = new Rectangle(wmsWidthPx, wmsHeightPx);
-            BufferedImage image = new BufferedImage(imageBounds.width, imageBounds.height, BufferedImage.TYPE_4BYTE_ABGR_PRE);
+            BufferedImage image = new BufferedImage(imageBounds.width, imageBounds.height,
+                    BufferedImage.TYPE_4BYTE_ABGR_PRE);
 
             Graphics2D gr = image.createGraphics();
             int type = AlphaComposite.SRC;
@@ -280,20 +274,20 @@ public class ImageServiceImpl implements ImageService {
             RenderingHints renderingHints = new Hints();
             renderingHints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             renderer.setJava2DHints(renderingHints);
-            
+
             Map<Object, Object> rendererHints = new HashMap<Object, Object>();
             rendererHints.put(StreamingRenderer.DPI_KEY, dpi);
             renderer.setRendererHints(rendererHints);
-            
+
             renderer.paint(gr, imageBounds, vp.getBounds());
-            
+
 //            ImageIO.write(image, imageFormat, new File("/Users/stefan/tmp/fubar3.png"));
-            
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(image, imageFormat, baos); 
+            ImageIO.write(image, imageFormat, baos);
             baos.flush();
             byte[] imageInByte = baos.toByteArray();
-            baos.close();          
+            baos.close();
             map.dispose();
             return imageInByte;
         } catch (FactoryException e) {
@@ -310,59 +304,62 @@ public class ImageServiceImpl implements ImageService {
             throw new ImageServiceException(e.getMessage());
         }
     }
-    
+
     private String createGetMapRequest(String url, String layerName, Envelope envelope) {
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append(url);
-        queryBuilder.append("?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image/"+imageFormat);
-        queryBuilder.append("&SRS=EPSG:2056&CRS=EPSG:2056&LAYERS="+layerName);
-        queryBuilder.append("&DPI="+dpi);
-        
+        queryBuilder.append("?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image/" + imageFormat);
+        queryBuilder.append("&SRS=EPSG:2056&CRS=EPSG:2056&LAYERS=" + layerName);
+        queryBuilder.append("&DPI=" + dpi);
+
         double wmsWidthPx = mapWidthMM / 25.4 * dpi;
         double wmsHeightPx = wmsWidthPx / (mapWidthMM / mapHeightMM);
-        queryBuilder.append("&WIDTH="+Math.round(wmsWidthPx));
-        queryBuilder.append("&HEIGHT="+Math.round(wmsHeightPx));
-        
-        String bbox = envelope.getMinX() + "," + envelope.getMinY() + "," + envelope.getMaxX() + "," + envelope.getMaxY();
-        queryBuilder.append("&BBOX="+bbox);
-        
+        queryBuilder.append("&WIDTH=" + Math.round(wmsWidthPx));
+        queryBuilder.append("&HEIGHT=" + Math.round(wmsHeightPx));
+
+        String bbox = envelope.getMinX() + "," + envelope.getMinY() + "," + envelope.getMaxX() + ","
+                + envelope.getMaxY();
+        queryBuilder.append("&BBOX=" + bbox);
+
         return queryBuilder.toString();
     }
-    
+
     private Envelope calculateBoundingBox(Geometry geom) {
         Envelope objectEnvelope = geom.getBoundary().getEnvelopeInternal();
-        
-        double objectExtentRatio = objectEnvelope.getWidth() / objectEnvelope.getHeight(); // Verhältnis von Breite und Höhe der BBOX des Original-Objekts.
+
+        // Verhältnis von Breite und Höhe der BBOX des Original-Objekts.
+        double objectExtentRatio = objectEnvelope.getWidth() / objectEnvelope.getHeight(); 
         double minX;
         double minY;
         double maxX;
         double maxY;
-        double midpointX = objectEnvelope.getMinX() + objectEnvelope.getWidth()/2;
-        double midpointY = objectEnvelope.getMinY() + objectEnvelope.getHeight()/2;
+        double midpointX = objectEnvelope.getMinX() + objectEnvelope.getWidth() / 2;
+        double midpointY = objectEnvelope.getMinY() + objectEnvelope.getHeight() / 2;
         double extractMapRatio = mapWidthMM / mapHeightMM; // Verhältnis von Breite und Höhe der Karte im PDF.
-        
+
         if (extractMapRatio < objectExtentRatio) {
-            minX = midpointX - objectEnvelope.getWidth()/2;
-            minY = midpointY - (objectEnvelope.getWidth()/2 / extractMapRatio);
-            
-            maxX = midpointX + objectEnvelope.getWidth()/2;
-            maxY = midpointY + (objectEnvelope.getWidth()/2 / extractMapRatio);
+            minX = midpointX - objectEnvelope.getWidth() / 2;
+            minY = midpointY - (objectEnvelope.getWidth() / 2 / extractMapRatio);
+
+            maxX = midpointX + objectEnvelope.getWidth() / 2;
+            maxY = midpointY + (objectEnvelope.getWidth() / 2 / extractMapRatio);
         } else {
-            minX = midpointX - objectEnvelope.getHeight()/2 * extractMapRatio;
-            minY = midpointY - (objectEnvelope.getHeight()/2 );
-            
-            maxX = midpointX + objectEnvelope.getHeight()/2 * extractMapRatio;
-            maxY = midpointY + (objectEnvelope.getHeight()/2 );
+            minX = midpointX - objectEnvelope.getHeight() / 2 * extractMapRatio;
+            minY = midpointY - (objectEnvelope.getHeight() / 2);
+
+            maxX = midpointX + objectEnvelope.getHeight() / 2 * extractMapRatio;
+            maxY = midpointY + (objectEnvelope.getHeight() / 2);
         }
-        
+
         // Must be the same as extractMapRatio.
         double l = maxX - minX;
         double h = maxY - minY;
-        log.info(String.valueOf("bboxRatio: " + l/h) + " -- extractMapRatio: " + extractMapRatio);
+        log.info(String.valueOf("bboxRatio: " + l / h) + " -- extractMapRatio: " + extractMapRatio);
 
         // Expand bbox to get a better visual result.
         Envelope bboxEnvelope = new Envelope(minX, maxX, minY, maxY);
-        double expandDistance = (bboxEnvelope.getMaxX() - bboxEnvelope.getMinX()) * mapScaleFactor - (bboxEnvelope.getMaxX() - bboxEnvelope.getMinX());
+        double expandDistance = (bboxEnvelope.getMaxX() - bboxEnvelope.getMinX()) * mapScaleFactor
+                - (bboxEnvelope.getMaxX() - bboxEnvelope.getMinX());
         bboxEnvelope.expandBy(expandDistance, expandDistance / extractMapRatio);
 
         return bboxEnvelope;
